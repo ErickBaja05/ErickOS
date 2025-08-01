@@ -14,7 +14,7 @@ struct Node {
     string description;
     bool status = false;
     string dateCreated;
-    Node *next;
+    Node *next = nullptr;
 
 };
 
@@ -68,6 +68,7 @@ void addTask(List *& list, string description){
     string currentTime = getTimeCustom();
     toAdd->dateCreated = currentTime;
     toAdd->next = nullptr;
+    
 
     // FIRST ELEMENT ADDED
     if(list->head == nullptr){
@@ -114,8 +115,9 @@ void deleteTask(List *& list, int ID){
                 delete current;
                 
             }else{
-                 cout << "Eliminación cancelada. Presione una tecla para continuar..." << endl;
+                cout << "Eliminación cancelada. Presione una tecla para continuar..." << endl;
                 cin.ignore(); cin.get();
+                return;
             }
             cout << "TAREA ELIMINADA CON EXITO" << endl;
             cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << endl;
@@ -147,6 +149,11 @@ string getTimeCustom() {
 }
 
 void showTasks(List *&list){
+    if(list->head == nullptr){
+        cout << " LA LISTA ESTA VACIA.. presione cualquier tecla para continuar " << endl;
+        cin.ignore(); cin.get();
+        return;
+    }
     Node *aux = list->head;
     while(aux != nullptr){
         if(aux->status){
