@@ -18,8 +18,12 @@ struct Node {
 
 };
 
+struct List {
+    Node *head = nullptr;
+};
+
 int main(){
-    Node * toDoList = nullptr;
+    List * toDoList = new List();
     runToDo(toDoList);
     return 0;
 }
@@ -39,23 +43,38 @@ void mainMenu(){
 
 }
 
+void emptyList(List *list){
+    Node * current = list->head;
+    Node * temp;
+    while(current != nullptr){
+        temp = current;
+        current = current->next;
+        delete temp;
+         
 
-void addTask(Node *& list){
+    }
+    list->head = nullptr;
+    cout << "La lista ha sido vaciada correctamente." << endl;
+    cout << "PRESIONE UNA TECLA PARA CONTINUAR...."<< endl;
+    cin.get();
+
+}
+
+
+void addTask(List *& list, string description){
 
     Node* toAdd = new Node();
-    cout << "Ingrese la descripcion de la tarea: " << endl;
-    cin.ignore();
-    getline(cin, toAdd->description);
+    toAdd->description = description;
     string currentTime = getTimeCustom();
     toAdd->dateCreated = currentTime;
     toAdd->next = nullptr;
 
     // FIRST ELEMENT ADDED
-    if(list == nullptr){
-        list = toAdd;
+    if(list->head == nullptr){
+        list->head = toAdd;
     }else{
          // ITERATE IN ALL THE LINKED LIST UNTIL FIND AND SPACE.
-        Node* current = list;
+        Node* current = list->head;
         while(current->next != nullptr){
         current = current->next;
     }
@@ -71,6 +90,44 @@ void addTask(Node *& list){
     cout << "PRESIONE UNA TECLA PARA CONTINUAR...."<< endl;
     cin.get();
 
+}
+
+void deleteTask(List *& list, int ID){
+    Node* current = list->head;
+    Node* previous = nullptr;
+    char confirmation;
+    
+    while (current != nullptr){
+        if(current->id = ID){
+            cout << "DESCRIPCIÓN DE LA TAREA A ELIMINAR:\n";
+            cout << current->description << endl;
+            cout << "CREADA EL: " << current->dateCreated << endl;
+            cout << "¿Desea eliminar esta tarea? [Y/n]: ";
+            cin >> confirmation;
+            if(confirmation != 'n'){
+                // first node to eliminate is the head
+                if(previous == nullptr){
+                    list->head = current->next;
+                }else{
+                    previous->next = current->next;
+                }
+                delete current;
+                
+            }else{
+                 cout << "Eliminación cancelada. Presione una tecla para continuar..." << endl;
+                cin.ignore(); cin.get();
+            }
+            cout << "TAREA ELIMINADA CON EXITO" << endl;
+            cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << endl;
+            cin.get();
+            
+            return;
+        }
+        previous = current;
+        current = current->next;
+        
+    }
+    cout << "LA TAREA CON ESE ID NO EXISTE" << endl;
 
 }
 
@@ -89,8 +146,8 @@ string getTimeCustom() {
     return oss.str();
 }
 
-void showTasks(Node *&list){
-    Node *aux = list;
+void showTasks(List *&list){
+    Node *aux = list->head;
     while(aux != nullptr){
         if(aux->status){
             cout << "TAREAS COMPLETADAS: " <<endl;    
@@ -105,19 +162,29 @@ void showTasks(Node *&list){
     }
 }
 
-void runToDo(Node *&list){
+void runToDo(List *&list){
     int option = -1;
+    string description;
+    int id;
+    char confirmation;
     while (option < 0 || option > 8){
         mainMenu();
         cin >> option;
         switch (option)
         {
         case 1:
-            addTask(list);
+            
+            option = -1;
+            cout << "Ingrese la descripcion de la tarea: " << endl;
+            cin.ignore();
+            getline(cin,description);
+            addTask(list,description);
             option = -1;
             break;
         case 2:
-            cout << "STILL BEING DEVELOPED" <<endl;
+            cout << "Ingrese el id de la tarea a eliminar (puede ver todas las tareas en la opcion 5)" <<endl;
+            cin >> id;
+            deleteTask(list,id);
             option = -1;
             break;
         case 3:
@@ -129,10 +196,18 @@ void runToDo(Node *&list){
             option = -1;
             break;
         case 5:
-            cout << "STILL BEING DEVELOPED" <<endl;
+            showTasks(list);
             option = -1;
             break;
         case 6:
+            cout << "Se eliminaran todas las tareas de la lista , seguro quiere continuar? [Y/n]" << endl;
+            cin >> confirmation;
+            if(confirmation != 'n' || confirmation != 'N'){
+                emptyList(list);
+            }else{
+                cout << "Operacion cancelada... Presione una tecla para continuar" << endl;
+                cin.get();
+            }
             cout << "STILL BEING DEVELOPED" <<endl;
             option = -1;
             break;
