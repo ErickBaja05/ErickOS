@@ -48,7 +48,7 @@ To compile and run each miniproject the project, ensure you have a C++ compiler 
 Example of compilation and execution of toDo mini project
 
 ```bash
-git clone https://github.com/yourusername/ErickOS.git
+git clone https://github.com/ErickBaja05/ErickOS
 cd ErickOS
 g++ -o ErickOS main.cpp toDo/todo.cpp 
 ./ErickOS
