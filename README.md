@@ -65,9 +65,9 @@ All input/output is managed through the console for simplicity and focus on core
 
 
 ## Future Plans
--Implement additional mini-projects: Music Player, Bank Simulator, Card Game, etc.
--Extend data structures to trees and AVL trees.
--Add graphical interface using JavaFX for Java version.
+- Implement additional mini-projects: Music Player, Bank Simulator, Card Game, etc.  
+- Extend data structures to trees and AVL trees.
+- Add graphical interface using JavaFX for Java version.
 
 ---
 
