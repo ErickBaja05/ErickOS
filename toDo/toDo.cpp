@@ -12,19 +12,6 @@
 
 int N_TASK = 1;
 
-struct Node {
-    int id = N_TASK;
-    std::string description;
-    bool status = false;
-    std::string dateCreated;
-    Node *next = nullptr;
-
-};
-
-struct List {
-    Node *head = nullptr;
-};
-
 int main(){
     List * toDoList = new List();
     runToDo(toDoList);
@@ -45,7 +32,7 @@ void mainMenu(){
 
 }
 void addTask(List *& list, std::string description){
-
+    // CREATION OF THE NODE TO BE ADDED , DATE IS STORED JUST AFTER THAT MOMENT
     Node* toAdd = new Node();
     toAdd->description = description;
     std::string currentTime = getTimeCustom();
@@ -88,11 +75,13 @@ void deleteTask(List *& list, int ID){
             std::cout << "CREADA EL: " << current->dateCreated << std::endl;
             std::cout << "¿Desea eliminar esta tarea? [Y/n]: ";
             std::cin >> confirmation;
-            if(confirmation == 'y' || confirmation =='Y'){
-                // first node to eliminate is the head
+            confirmation = toupper(confirmation);
+            if(confirmation != 'N'){
+                // THE NODE TO ELIMINATE IS THE HEAD.
                 if(previous == nullptr){
                     list->head = current->next;
                 }else{
+                    // TO KEEP THE LINKED FORMAT AVOIDING THE NODE TO BE DELETED
                     previous->next= current->next;
 
                 }
@@ -132,7 +121,7 @@ void lookForTask(List *list, std::string &keyword){
             if(current->status){
             std::cout << "ESTADO: COMPLETADA!!!" <<std::endl;    
         }else{
-            std::cout << "ESTADO: PENDIENTE****" <<std::endl;  
+            std::cout << "ESTADO: ******PENDIENTE****" <<std::endl;  
         }
         std::cout << "ID DE TAREA: " << current->id <<std::endl;
         std::cout << "DESCRIPCION: " << current->description << std::endl;
@@ -190,6 +179,8 @@ void showTasks(List *&list){
         std::cout << "------------------------------------" << std::endl;
         aux = aux->next;
     }
+
+    
 }
 
 void emptyList(List *&list){
@@ -204,12 +195,87 @@ void emptyList(List *&list){
     }
     list->head = nullptr;
     std::cout << "La lista ha sido vaciada correctamente." << std::endl;
-    std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...."<< std::endl;
-    std::cin.get();
+   
 
 }
 
 
+void saveTasks(List *&list){
+    std::ofstream file("taskTodo.txt");
+    if(!file){
+        std::cout << "Error al abrir el archivo para guardar los datos" << std::endl;
+        return;
+    }
+
+    if(list->head == nullptr){
+        std::cout << " LA LISTA ESTA VACIA, NO SE GUARDA NADA " << std::endl;
+        file << -1;
+        std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR..." << std::endl;
+        std::cin.get();
+        return;
+    }
+
+    Node *current = list->head;
+    while(current != nullptr){
+        if(!current->status){
+             file<< current->id <<std::endl;
+             file<< current->description << std::endl;
+             file<< current ->dateCreated <<std::endl;
+        
+        }
+
+
+        current = current->next;
+    }
+    file << -1;
+    file.close();
+
+}
+
+void loadTasks(List *&list){
+
+    
+    
+    std::ifstream file("taskTodo.txt");
+
+     // Verificar si el archivo está vacío
+    file.peek(); 
+    if (file.eof()) {
+        return;
+    }
+    if(!file){
+        std::cout << "Error al abrir el archivo para guardar los datos" << std::endl;
+        return;
+    }
+    int id;
+    int maxId = 1;
+    std::string description;
+    std::string creationDate;
+    file >> id;
+    Node* last = nullptr;
+    while(id != -1){
+        Node* newNode = new Node();
+        newNode->id = id;
+        if(id > maxId) maxId = id;
+        file.get();
+        std::getline(file,description);
+        newNode->description = description;
+        std::getline(file,creationDate);
+        newNode->dateCreated = creationDate;
+        
+        newNode->next = nullptr;
+        if(list->head == nullptr){
+            list->head = newNode;
+        }else{
+            last->next = newNode;    
+        }
+        last = newNode;
+        
+        file >> id;
+    }
+    N_TASK = ++maxId;
+
+}
 
 std::string getTimeCustom() {
     time_t now = time(nullptr);
@@ -229,13 +295,20 @@ std::string getTimeCustom() {
 
 
 void runToDo(List *&list){
+    loadTasks(list);
     int option = -1;
     std::string description;
     int id;
     char confirmation;
-    while (option < 0 || option > 8){
+    while (option < 0 || option > 7){
+        
         mainMenu();
         std::cin >> option;
+        if(option < 0 || option > 7){
+            std::cout << "OPCION INVALIDA, INTENTE OTRA VEZ" << std::endl;
+            std::cin.ignore();
+            continue;
+        }
         switch (option)
         {
         case 1:
@@ -273,7 +346,8 @@ void runToDo(List *&list){
         case 6:
             std::cout << "Se eliminaran todas las tareas de la lista , seguro quiere continuar? [Y/n]" << std::endl;
             std::cin >> confirmation;
-            if(confirmation == 'y' || confirmation == 'Y'){
+            confirmation = toupper(confirmation);
+            if(confirmation != 'N'){
                 emptyList(list);
             }else{
                 std::cout << "Operacion cancelada... Presione una tecla para continuar" << std::endl;
@@ -282,8 +356,14 @@ void runToDo(List *&list){
             option = -1;
             break;
         case 7:
-            std::cout << "STILL BEING DEVELOPED" <<std::endl;
-            option = -1;
+            std::cout << "Las tareas pendientes se guardaran en el archivo \"taskToDo.txt\", las tareas completadas se eliminaran." <<std::endl;
+            std::cout << "Guardando tareas...." << std::endl;
+            saveTasks(list);
+            std::cout << "TAREAS GUARDADAS CON EXITO" << std::endl;
+            std::cout << "Vaciando la lista del programa... no te preocupes, tus tareas ya estan a salvo :3" << std::endl;
+            emptyList(list);
+            delete list;
+            std::cout << "La proxima vez que inicies el programa , en la opcion 5 podras ver las tareas que te faltan por completar, hasta pronto" << std::endl;
             break;
         default:
             break;
