@@ -7,19 +7,13 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
-#include "toDo.h"
+#include "toDo/toDo.h"
 
 
 int N_TASK = 1;
 
-int main(){
-    List * toDoList = new List();
-    runToDo(toDoList);
-    return 0;
-}
 
-
-void mainMenu(){
+void menuToDo(){
     std::cout << "*****LISTA DE TAREAS PENDIENTES *********" <<std::endl;
     std::cout << "1. Agregar una tarea a la lista" <<std::endl;
     std:: cout <<"2. Eliminar una tarea por ID" <<std::endl;
@@ -31,6 +25,7 @@ void mainMenu(){
     std::cout << "Ingrese una opcion: ";
 
 }
+
 void addTask(List *& list, std::string description){
     // CREATION OF THE NODE TO BE ADDED , DATE IS STORED JUST AFTER THAT MOMENT
     Node* toAdd = new Node();
@@ -201,7 +196,7 @@ void emptyList(List *&list){
 
 
 void saveTasks(List *&list){
-    std::ofstream file("taskTodo.txt");
+    std::ofstream file("data/toDo/taskTodo.txt");
     if(!file){
         std::cout << "Error al abrir el archivo para guardar los datos" << std::endl;
         return;
@@ -234,9 +229,9 @@ void saveTasks(List *&list){
 
 void loadTasks(List *&list){
 
-    
-    
-    std::ifstream file("taskTodo.txt");
+
+
+    std::ifstream file("data/toDo/taskTodo.txt");
 
      // Verificar si el archivo está vacío
     file.peek(); 
@@ -302,7 +297,7 @@ void runToDo(List *&list){
     char confirmation;
     while (option < 0 || option > 7){
         
-        mainMenu();
+        menuToDo();
         std::cin >> option;
         if(option < 0 || option > 7){
             std::cout << "OPCION INVALIDA, INTENTE OTRA VEZ" << std::endl;

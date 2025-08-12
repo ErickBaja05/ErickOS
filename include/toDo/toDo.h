@@ -34,7 +34,7 @@ struct List {
 /**
  * @brief Menu to indicate the user the funcionalities of the program
  */
-void mainMenu();
+void menuToDo();
 /**
  * @brief Function to add a new task to the list
  * @details It creates nodes in heap memory and are linked trough the head
