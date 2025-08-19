@@ -4,17 +4,17 @@
 #include <iostream>
 #include "toDo/toDo.h"
 
-void run(List *& toDoList);
+void run(TaskList *& toDoList);
 void mainMenu();
 int main(){
-    List * toDoList = new List();
+    TaskList * toDoList = new TaskList();
     run(toDoList);
 }
 
 void mainMenu(){
     std::cout << "*******BIENVENIDO A ERICKOS******" << std::endl;
     std::cout << "1. toDo list (LinkedList)" << std::endl;
-    std::cout << "2. Proyecto 2" << std::endl;
+    std::cout << "2. Notes App (STACK)" << std::endl;
     std::cout << "3. Proyecto 3" << std::endl;
     std::cout << "4. Proyecto 4" << std::endl;
     std::cout << "5. Proyecto 5" << std::endl;
@@ -23,7 +23,7 @@ void mainMenu(){
 
 }
 
-void run(List *& toDoList) {
+void run(TaskList *& toDoList) {
 
     int option = -1;
     while(option < 0 || option > 6) {

@@ -15,6 +15,7 @@ include_directories(include)
 set(SOURCES
         src/main.cpp
         src/toDo/toDo.cpp
+        src/notesApp/notesApp.cpp
         # Agrega más src si tienes otros módulos
 )
 

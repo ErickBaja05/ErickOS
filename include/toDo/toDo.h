@@ -11,25 +11,25 @@
  */
 extern int N_TASK;
 /**
- * @struct Node
+ * @struct NoteNode
  * @brief Node of the linkedList that represents a task to do
  * Contains all the  information required for a task an a pointer to the next Node
  */
-struct Node {
+struct NoteNode {
     int id = N_TASK;
     std::string description;
     std::string dateCreated;
     bool status = false;
-    Node *next = nullptr;
+    NoteNode *next = nullptr;
 
 };
 /**
- * @struct List
+ * @struct TaskList
  * @brief Structure that represent the LinkedList of task to do
  * It only contains the Node head initialized as a null pointer.
  */
-struct List {
-    Node *head = nullptr;
+struct TaskList {
+    NoteNode *head = nullptr;
 };
 /**
  * @brief Menu to indicate the user the funcionalities of the program
@@ -41,7 +41,7 @@ void menuToDo();
  * @param list pointer to the list where the task will be added.
  * @param description a string representing the description of the task to be saved
  */
-void addTask(List *& list ,std::string description);
+void addTask(TaskList *& list ,std::string description);
 /**
  * @brief Function to get a string representating the date when a task is added
  */
@@ -50,7 +50,7 @@ std::string getTimeCustom();
  * @brief prints on screen all the task and show if they are completed or not yet
  * @param list pointer to the list where the task are stored
  */
-void showTasks(List *&list);
+void showTasks(TaskList *&list);
 /**
  * @brief deletes a task from the list and releases its memory
  * Looks for a task by the ID provided
@@ -58,19 +58,19 @@ void showTasks(List *&list);
  * @param id identifier of the task to be deleted, it is given by the user
  * @details if there is not a task with the id provided, the function does nothing and shows a message on screen stating this.
  */
-void deleteTask(List *& list, int ID);
+void deleteTask(TaskList *& list, int ID);
 /**
  * @brief allows to change the value of the status field of the Node structure from false to true, meaning a task was completed
  * @param list  pointer to the list where the task are stored
  * @param id identifier or the task to be updated, it is given by the user
  * @details if there is not a task with the id provided, function does nothing and shows a message on screen stating this.
  */
-void completeTask(List *&list, int id);
+void completeTask(TaskList *&list, int id);
 /**
  * @brief delete all nodes and releases all the memory used by them
  * @param list pointer to the list where the task are stored
  */
-void emptyList(List *&list);
+void emptyList(TaskList *&list);
 /**
  * @brief look and print on the screen all the task whose description contains a word or string given
  * @param list pointer to the list where task are saved
@@ -78,13 +78,13 @@ void emptyList(List *&list);
  * @details it is not case-sensitive, "PLAY" and "play" are treated the same. The conversion of the strings to uppercase is done with the help of auxiliaries variables to do not modify the original content.
 
  */
-void lookForTask(List *list, std::string &keyword);
+void lookForTask(TaskList *list, std::string &keyword);
 /**
  * @brief store all the uncompleted task in a txt file. 
  * @param list pointer to the list where task are saved
  * @details it only stores task which has not been completed yet. Completed task are completely ignored
  */
-void saveTasks(List *&list);
+void saveTasks(TaskList *&list);
 
 /**
  * @brief load all the task stored in the txt filed to the list of the program.
@@ -92,7 +92,7 @@ void saveTasks(List *&list);
  * @details it increments the N_TASK variable to do not allow duplicated ids for the tasks at the end of the load process
  * 
  */
-void loadTasks(List *&list);
+void loadTasks(TaskList *&list);
 
 /**
  * @brief function to call all the funcionalities of the program
@@ -100,6 +100,6 @@ void loadTasks(List *&list);
  * @details when the program is about to get closed, it automatically calls saveTask funtion, completed task are deleted.
  * At the end of the execution of this module, the list is deleted and its memory released.
  */
-void runToDo(List *&list);
+void runToDo(TaskList *&list);
 
 #endif
