@@ -11,7 +11,8 @@ Each mini-project within ErickOS demonstrates practical applications of data str
 - [About the Project](#about-the-project)  
 - [Mini Projects](#mini-projects)  
   - [To-Do List](#to-do-list)  
-- [Getting Started](#getting-started)  
+- [Getting Started](#getting-started)
+  - [Steps to build and run](#steps-to-build-and-run)   
 - [How to Use](#how-to-use)  
 - [Future Plans](#future-plans)  
 - [Contact](#contact)  
@@ -43,16 +44,35 @@ This mini-project demonstrates practical usage of pointers, dynamic memory manag
 ---
 
 ## Getting Started
-Each miniproject has a main function to try it individually for now. 
-To compile and run each miniproject the project, ensure you have a C++ compiler (like g++) installed.
-Example of compilation and execution of toDo mini project
+
+This project uses CMake as its build system. To compile and run ErickOS, make sure you have CMake and a C++ compiler (like g++) installed.
+
+### Steps to build and run:
 
 ```bash
+# Clone the repository
 git clone https://github.com/ErickBaja05/ErickOS
 cd ErickOS
-g++ -o ErickOS main.cpp toDo/todo.cpp 
+
+# Create a build directory and enter it
+mkdir build
+cd build
+
+# Generate build files with CMake
+cmake ..
+
+# Build the project
+cmake --build .
+
+# Run the executable
 ./ErickOS
 ```
+### Notes
+-  The project source files are organized modularly inside the src/ folder.
+- Header files are in the include/ folder.
+- Data files are stored inside the data/ folder.
+- Make sure to run commands from the build/ directory after initial setup.
+
 
 ---
 
