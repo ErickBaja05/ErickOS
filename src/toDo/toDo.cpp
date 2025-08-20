@@ -28,7 +28,7 @@ void menuToDo(){
 
 void addTask(TaskList *& list, std::string description){
     // CREATION OF THE NODE TO BE ADDED , DATE IS STORED JUST AFTER THAT MOMENT
-    NoteNode* toAdd = new NoteNode();
+    TasKNode* toAdd = new TasKNode();
     toAdd->description = description;
     std::string currentTime = getTimeCustom();
     toAdd->dateCreated = currentTime;
@@ -40,7 +40,7 @@ void addTask(TaskList *& list, std::string description){
         list->head = toAdd;
     }else{
          // ITERATE IN ALL THE LINKED LIST UNTIL FIND AND SPACE.
-        NoteNode* current = list->head;
+        TasKNode* current = list->head;
         while(current->next != nullptr){
         current = current->next;
     }
@@ -59,8 +59,8 @@ void addTask(TaskList *& list, std::string description){
 }
 
 void deleteTask(TaskList *& list, int ID){
-    NoteNode* current = list->head;
-    NoteNode* previous = nullptr;
+    TasKNode* current = list->head;
+    TasKNode* previous = nullptr;
     char confirmation;
     
     while (current != nullptr){
@@ -102,7 +102,7 @@ void deleteTask(TaskList *& list, int ID){
 }
 
 void lookForTask(TaskList *list, std::string &keyword){
-    NoteNode* current = list->head;
+    TasKNode* current = list->head;
     bool founded = false;
     std::cout << "TAREAS QUE CONTIENEN: \" " << keyword << "\":" << std::endl;
     std::string keywordUpper = keyword;
@@ -134,8 +134,8 @@ void lookForTask(TaskList *list, std::string &keyword){
 
 void completeTask(TaskList *&list, int id){
     
-    NoteNode* current = list->head;
-    NoteNode* previous = nullptr;
+    TasKNode* current = list->head;
+    TasKNode* previous = nullptr;
   
     while (current != nullptr){
         if(current->id == id){
@@ -161,7 +161,7 @@ void showTasks(TaskList *&list){
         std::cin.ignore(); std::cin.get();
         return;
     }
-    NoteNode *aux = list->head;
+    TasKNode *aux = list->head;
     while(aux != nullptr){
         if(aux->status){
             std::cout << "ESTADO: COMPLETADA!!!" <<std::endl;    
@@ -179,8 +179,8 @@ void showTasks(TaskList *&list){
 }
 
 void emptyList(TaskList *&list){
-    NoteNode * current = list->head;
-    NoteNode * temp;
+    TasKNode * current = list->head;
+    TasKNode * temp;
     while(current != nullptr){
         temp = current;
         current = current->next;
@@ -210,7 +210,7 @@ void saveTasks(TaskList *&list){
         return;
     }
 
-    NoteNode *current = list->head;
+    TasKNode *current = list->head;
     while(current != nullptr){
         if(!current->status){
              file<< current->id <<std::endl;
@@ -247,9 +247,9 @@ void loadTasks(TaskList *&list){
     std::string description;
     std::string creationDate;
     file >> id;
-    NoteNode* last = nullptr;
+    TasKNode* last = nullptr;
     while(id != -1){
-        NoteNode* newNode = new NoteNode();
+        TasKNode* newNode = new TasKNode();
         newNode->id = id;
         if(id > maxId) maxId = id;
         file.get();
@@ -359,6 +359,8 @@ void runToDo(TaskList *&list){
             emptyList(list);
             delete list;
             std::cout << "La proxima vez que inicies el programa , en la opcion 5 podras ver las tareas que te faltan por completar, hasta pronto" << std::endl;
+                std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR....";
+                std::cin.get();
             break;
         default:
             break;

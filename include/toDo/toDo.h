@@ -11,16 +11,16 @@
  */
 extern int N_TASK;
 /**
- * @struct NoteNode
+ * @struct TasKNode
  * @brief Node of the linkedList that represents a task to do
- * Contains all the  information required for a task an a pointer to the next Node
+ * Contains all the  information required for a task and a pointer to the next Node
  */
-struct NoteNode {
+struct TasKNode {
     int id = N_TASK;
     std::string description;
     std::string dateCreated;
     bool status = false;
-    NoteNode *next = nullptr;
+    TasKNode *next = nullptr;
 
 };
 /**
@@ -29,7 +29,7 @@ struct NoteNode {
  * It only contains the Node head initialized as a null pointer.
  */
 struct TaskList {
-    NoteNode *head = nullptr;
+    TasKNode *head = nullptr;
 };
 /**
  * @brief Menu to indicate the user the funcionalities of the program
