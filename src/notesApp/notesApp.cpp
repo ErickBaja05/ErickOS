@@ -84,17 +84,7 @@ void popNote(NoteStack *& stack) {
     }
 }
 
-NoteNode* popNote2(NoteStack *& stack) {
-    if (isEmpty(stack)) {
-        std::cout <<" LA PILA ESTA VACIA " <<std::endl;
-        std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
-        std::cin.ignore() , std::cin.get();
-        return nullptr;
-    }
-    NoteNode *aux = stack->top;
-    stack->top = stack->top->next;
-    return aux;
-}
+
 
 void showStackNotes(NoteStack *& stack) {
     if (isEmpty(stack)) {
@@ -207,9 +197,33 @@ void loadNotes(NoteStack *& stack) {
 
     }
 
-    file.close();
 
+    file.close();
+    reverseStack(stack);
     N_NOTE = ++ maxId;
+}
+
+void reverseStack(NoteStack *&stack) {
+    if (stack == nullptr || stack->top == nullptr || stack->top->next == nullptr) {
+        // Nothing to reverse if stack is empty or has only one element
+        return;
+    }
+
+    NoteStack *reversed = new NoteStack(); // temporary stack
+
+    // Pop elements from original and push into reversed
+    NoteNode *current = stack->top;
+    while (current != nullptr) {
+        NoteNode *nextNode = current->next;  // Save the next node
+        current->next = reversed->top;       // Point to top of reversed stack
+        reversed->top = current;             // Move current node to reversed stack
+        current = nextNode;                  // Move to next node
+    }
+
+    // Update original stack to reversed
+    stack->top = reversed->top;
+
+    delete reversed; // Free the temporary stack (not its nodes, because they were reused)
 }
 
 bool isEmpty(NoteStack *& stack) {
@@ -270,6 +284,7 @@ void runNotesApp(NoteStack *& stack) {
                 saveNotes(stack);
                 std::cout << "NOTAS GUARDADAS" << std::endl;
                 std::cout << "Hasta pronto" << std::endl;
+                emptyStack(stack);
                 delete stack;
                 break;
             default:

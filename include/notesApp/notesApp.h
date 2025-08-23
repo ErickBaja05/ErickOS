@@ -83,7 +83,20 @@ void lookForNote(NoteStack *& stack , std::string keyword );
  */
 void emptyStack(NoteStack *& stack);
 
-void loadNotes(NoteStack *& stack);
-
+/**
+ * @brief save the stack in the txt file.
+ * @param stack is the pointer to the stack where all the notes are being entered.
+ */
 void saveNotes(NoteStack *& stack);
+
+/**
+ * @brief retrive all notes from the txt file , the stack is reversed due to LIFO structure
+ * @param stack is the pointer to the stack where all the notes are being entered.
+ */
+void loadNotes(NoteStack *& stack);
+/**
+ * @brief reverse the stack to have the data exactly as it was
+ * @param stack is the pointer to the stack where all the notes are being entered.
+ */
+void reverseStack(NoteStack *&stack);
 #endif
