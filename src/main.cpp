@@ -3,12 +3,14 @@
 //
 #include <iostream>
 #include "toDo/toDo.h"
-
-void run(TaskList *& toDoList);
+#include "notesApp/notesApp.h"
+void run(TaskList *& toDoList,NoteStack *&stack);
 void mainMenu();
+
 int main(){
     TaskList * toDoList = new TaskList();
-    run(toDoList);
+    NoteStack * stack = new NoteStack();
+    run(toDoList,stack);
 }
 
 void mainMenu(){
@@ -23,7 +25,7 @@ void mainMenu(){
 
 }
 
-void run(TaskList *& toDoList) {
+void run(TaskList *& toDoList, NoteStack *& stack) {
 
     int option = -1;
     while(option < 0 || option > 6) {
@@ -39,7 +41,7 @@ void run(TaskList *& toDoList) {
                 option = -1;
                 break;
             case 2:
-                std::cout << "AUN EN DESAROLLO" << std::endl;
+                runNotesApp(stack);
                 option = -1;
                 break;
             case 3:

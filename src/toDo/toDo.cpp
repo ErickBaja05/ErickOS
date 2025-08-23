@@ -8,6 +8,7 @@
 #include <sstream>
 #include <iomanip>
 #include "toDo/toDo.h"
+#include "utils/utils.h"
 
 
 int N_TASK = 1;
@@ -54,7 +55,7 @@ void addTask(TaskList *& list, std::string description){
     std::cout << "Lista de tareas en la lista: " << std::endl;
     showTasks(list);
     std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...."<< std::endl;
-    std::cin.get();
+    std::cin.ignore() ; std::cin.get();
 
 }
 
@@ -84,12 +85,12 @@ void deleteTask(TaskList *& list, int ID){
                 
             }else{
                 std::cout << "Eliminación cancelada. Presione una tecla para continuar..." << std::endl;
-                std::cin.get();
+                std::cin.ignore() ; std::cin.get();
                 return;
             }
             std::cout << "TAREA ELIMINADA CON EXITO" << std::endl;
             std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
-            std::cin.get();
+            std::cin.ignore() ; std::cin.get();
             
             return;
         }
@@ -142,7 +143,7 @@ void completeTask(TaskList *&list, int id){
             current->status = true;  
             std::cout << "TAREA MARCADA COMO COMPLETADA" << std::endl;
             std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
-            std::cin.get();
+            std::cin.ignore() ; std::cin.get();
             return;
         }
         previous = current;
@@ -206,7 +207,7 @@ void saveTasks(TaskList *&list){
         std::cout << " LA LISTA ESTA VACIA, NO SE GUARDA NADA " << std::endl;
         file << -1;
         std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR..." << std::endl;
-        std::cin.get();
+        std::cin.ignore() ; std::cin.get();
         return;
     }
 
@@ -228,8 +229,6 @@ void saveTasks(TaskList *&list){
 }
 
 void loadTasks(TaskList *&list){
-
-
 
     std::ifstream file("data/toDo/taskTodo.txt");
 
@@ -272,20 +271,7 @@ void loadTasks(TaskList *&list){
 
 }
 
-std::string getTimeCustom() {
-    time_t now = time(nullptr);
-    tm* localTime = localtime(&now);
-    std::ostringstream oss;
-    oss << std::setfill('0')
-        << std::setw(2) << localTime->tm_mday << "/"
-        << std::setw(2) << (localTime->tm_mon + 1) << "/"
-        << (localTime->tm_year + 1900)
-        << " -> "
-        << std::setw(2) << localTime->tm_hour << ":"
-        << std::setw(2) << localTime->tm_min;
 
-    return oss.str();
-}
 
 
 
@@ -346,7 +332,7 @@ void runToDo(TaskList *&list){
                 emptyList(list);
             }else{
                 std::cout << "Operacion cancelada... Presione una tecla para continuar" << std::endl;
-                std::cin.get();
+                std::cin.ignore() ; std::cin.get();
             }
             option = -1;
             break;
@@ -360,7 +346,7 @@ void runToDo(TaskList *&list){
             delete list;
             std::cout << "La proxima vez que inicies el programa , en la opcion 5 podras ver las tareas que te faltan por completar, hasta pronto" << std::endl;
                 std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR....";
-                std::cin.get();
+                std::cin.ignore() ; std::cin.get();
             break;
         default:
             break;

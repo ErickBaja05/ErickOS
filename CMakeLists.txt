@@ -16,6 +16,7 @@ set(SOURCES
         src/main.cpp
         src/toDo/toDo.cpp
         src/notesApp/notesApp.cpp
+        src/utils/utils.cpp
         # Agrega más src si tienes otros módulos
 )
 

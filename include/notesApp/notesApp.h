@@ -26,11 +26,11 @@ struct NoteNode {
 };
 
 /**
- * @struct NodeStack
+ * @struct NoteStack
  * @brief Struct which represents the STACK
  * Contains only a pointer to the top element initially being a null pointer
  */
-struct NodeStack {
+struct NoteStack {
     NoteNode* top = nullptr;
 };
 
@@ -38,7 +38,7 @@ struct NodeStack {
  * @brief calls all the functions of the notesApp program
  * @param stack is the pointer to the stack where all the notes are being entered.
  */
-void runNotesApp(NodeStack *& stack);
+void runNotesApp(NoteStack *& stack);
 
 /**
  * @brief menu to show all the options availabe for the NotesApp program.
@@ -49,10 +49,41 @@ void menuNotesApp();
  * @param stack is the pointer to the stack where all the notes are being entered.
  */
 
-bool isEmpty(NodeStack *& stack);
+bool isEmpty(NoteStack *& stack);
 /**
  * @brief push a note into the stack
  * @param stack is the pointer to the stack where all the notes are being entered.
  */
-void writeNote(NodeStack *& stack);
+void pushNote(NoteStack *& stack);
+/**
+ * @brief peek the last node added (LIFO STRUCTURE) without eliminating it
+ * @param stack is the pointer to the stack where all the notes are being entered.
+ */
+void peekNote(NoteStack *& stack);
+/**
+ * @brief shows all the notes in the stack starting till the last one added (LIFO)
+ * @param stack is the pointer to the stack where all the notes are being entered.
+ */
+void showStackNotes(NoteStack *& stack) ;
+/**
+ * @brief shows the last node added and after confirmation of the user the note is popped
+ * @param stack is the pointer to the stack where all the notes are being entered.
+ */
+void popNote(NoteStack *& stack) ;
+/**
+ * @brief shows notes which content contains one instance of a keyword given. Case un-sensitive function.
+ * @param stack is the pointer to the stack where all the notes are being entered.
+ * @param keyword is the string to be evaluated. It will be transformed to uppercase
+ */
+void lookForNote(NoteStack *& stack , std::string keyword );
+
+/**
+ * @brief empty the stack realising all the memory previously located
+ * @param stack is the pointer to the stack where all the notes are being entered.
+ */
+void emptyStack(NoteStack *& stack);
+
+void loadNotes(NoteStack *& stack);
+
+void saveNotes(NoteStack *& stack);
 #endif

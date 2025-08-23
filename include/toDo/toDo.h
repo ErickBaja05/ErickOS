@@ -42,10 +42,7 @@ void menuToDo();
  * @param description a string representing the description of the task to be saved
  */
 void addTask(TaskList *& list ,std::string description);
-/**
- * @brief Function to get a string representating the date when a task is added
- */
-std::string getTimeCustom();
+
 /**
  * @brief prints on screen all the task and show if they are completed or not yet
  * @param list pointer to the list where the task are stored
