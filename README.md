@@ -41,6 +41,19 @@ The To-Do List is the first mini-project implemented in ErickOS. It allows users
 
 This mini-project demonstrates practical usage of pointers, dynamic memory management, string manipulation, file I/O, and modular programming techniques in C++.
 
+### NotesApp
+
+The NotesApp is the second mini-project implemented in ErickOS. It allows users to take and save single notes. It uses a stack (LIFO) data structure.
+
+- Add notes with descriptions and creation timestamps.  
+- Delete notes by their unique IDs.  
+- Search notes by keyword (case-insensitive).  
+- Save and load notes from a text file to persist data between sessions and maintaining the original stack.
+- Notes are automatically assigned unique incremental IDs.  
+
+This mini-project demonstrates practical usage of pointers and LIFO structures, dynamic memory management, string manipulation, file I/O, and modular programming techniques in C++.
+
+
 ---
 
 ## Getting Started
