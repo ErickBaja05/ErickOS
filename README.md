@@ -11,7 +11,7 @@ Each mini-project within ErickOS demonstrates practical applications of data str
 - [About the Project](#about-the-project)  
 - [Mini Projects](#mini-projects)  
   - [To-Do List](#to-do-list)
-  - [Notes App](#notes-app)
+  - [Notes App](#notesapp)
 - [Getting Started](#getting-started)
   - [Steps to build and run](#steps-to-build-and-run)   
 - [How to Use](#how-to-use)  
