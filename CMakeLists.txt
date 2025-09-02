@@ -17,6 +17,7 @@ set(SOURCES
         src/toDo/toDo.cpp
         src/notesApp/notesApp.cpp
         src/utils/utils.cpp
+        src/bankSimulatorApp/bankSimulatorApp.cpp
         # Agrega más src si tienes otros módulos
 )
 

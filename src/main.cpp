@@ -4,6 +4,8 @@
 #include <iostream>
 #include "toDo/toDo.h"
 #include "notesApp/notesApp.h"
+#include "bankSimulatorApp/bankSimulatorApp.h"
+
 void run(TaskList *& toDoList,NoteStack *&stack);
 void mainMenu();
 
@@ -17,7 +19,7 @@ void mainMenu(){
     std::cout << "*******BIENVENIDO A ERICKOS******" << std::endl;
     std::cout << "1. toDo list (LinkedList)" << std::endl;
     std::cout << "2. Notes App (STACK)" << std::endl;
-    std::cout << "3. Proyecto 3" << std::endl;
+    std::cout << "3. Bank Simulator App (QUEUE)" << std::endl;
     std::cout << "4. Proyecto 4" << std::endl;
     std::cout << "5. Proyecto 5" << std::endl;
     std::cout << "6. Salir" << std::endl;
@@ -45,7 +47,7 @@ void run(TaskList *& toDoList, NoteStack *& stack) {
                 option = -1;
                 break;
             case 3:
-                std::cout << "AUN EN DESAROLLO" << std::endl;
+                runBankApp();
                 option = -1;
                 break;
             case 4:
