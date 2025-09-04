@@ -1,15 +1,11 @@
 
 #include <iostream>
 #include <fstream>
-#include <ctime>
 #include <string>
 #include <cctype>
 #include <algorithm>
-#include <sstream>
 #include <iomanip>
 #include "toDo/toDo.h"
-
-#include "bankSimulatorApp/bankSimulatorApp.h"
 #include "utils/utils.h"
 
 
