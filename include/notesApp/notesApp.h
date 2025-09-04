@@ -50,16 +50,24 @@ void menuNotesApp();
  */
 
 bool isStackEmpty(NoteStack *& stack);
+
+/**
+ * @brief create a NoteNode to be stored in the stack
+ * @return NoteNode* is a pointer to the new node to be added
+ */
+NoteNode* buildNote();
 /**
  * @brief push a note into the stack
  * @param stack is the pointer to the stack where all the notes are being entered.
+ * @param newNote is a noteNode which stores all the information of the Node. NoteNode previously built.
  */
-void pushNote(NoteStack *& stack);
+void pushNote(NoteStack * stack, NoteNode * newNote);
 /**
  * @brief peek the last node added (LIFO STRUCTURE) without eliminating it
  * @param stack is the pointer to the stack where all the notes are being entered.
+ * @return NoteNode* the pointer to the top of the stack without elimintating it
  */
-void peekNote(NoteStack *& stack);
+NoteNode* peekNote(NoteStack * stack) ;
 /**
  * @brief shows all the notes in the stack starting till the last one added (LIFO)
  * @param stack is the pointer to the stack where all the notes are being entered.

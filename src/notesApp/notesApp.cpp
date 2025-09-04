@@ -24,39 +24,32 @@ void menuNotesApp(){
     std::cout << "7. Guardar y volver al menu principal" <<std::endl;
     std::cout << "Ingrese una opcion: ";
 }
-
-void pushNote(NoteStack *& stack) {
-
+NoteNode* buildNote() {
     NoteNode *newNote = new NoteNode();
     newNote->id = N_NOTE++;
     newNote->creationDate = getTimeCustom();
-    std::cout << "Ingresa el contenido de la nota: " << std::endl;
-    getline(std::cin,newNote->content);
+    std::cout << "Ingrese la descripcion de la nota: " <<std::endl;
+    std::getline(std::cin,newNote->content);
+    return newNote;
+}
+
+void pushNote(NoteStack * stack, NoteNode * newNote) {
     newNote->next = stack->top;
     stack->top = newNote;
-    std::cout << "Nota agregada correctamente " << std::endl;
 
 }
-void peekNote(NoteStack *& stack) {
+NoteNode* peekNote(NoteStack * stack) {
     if (isStackEmpty(stack)) {
-        std::cout <<" LA PILA ESTA VACIA " <<std::endl;
-        std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
-        std::cin.ignore() , std::cin.get();
-        return;
+        return nullptr;
     }
-    std::cout <<"******ULTIMA NOTA REGISTRADA *******" <<std::endl;
-    std::cout << "ID: " << stack->top->id <<std::endl;
-    std::cout <<"Fecha de creacion: " << stack->top->creationDate <<std::endl;
-    std::cout <<"Contenido: " << stack->top->content<< std::endl;
-    std::cout <<"***********************************" <<std::endl;
+    return stack->top;
 
 }
+
+
 
 void popNote(NoteStack *& stack) {
     if (isStackEmpty(stack)) {
-        std::cout <<" LA PILA ESTA VACIA " <<std::endl;
-        std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
-        std::cin.ignore() , std::cin.get();
         return;
     }
     char confirmation;
@@ -78,7 +71,12 @@ void popNote(NoteStack *& stack) {
     }
 }
 
-
+void showNote(NoteNode *& note) {
+    std::cout << "ID: " << note->id <<std::endl;
+    std::cout <<"Fecha de creacion: " << note->creationDate <<std::endl;
+    std::cout <<"Contenido: " << note->content<< std::endl;
+    std::cout <<"***********************************" <<std::endl;
+}
 
 void showStackNotes(NoteStack *& stack) {
     if (isStackEmpty(stack)) {
@@ -90,10 +88,7 @@ void showStackNotes(NoteStack *& stack) {
     std::cout << "***** NOTAS APILADAS******" <<std::endl;
     NoteNode *current = stack->top;
     while (current != nullptr) {
-        std::cout << "ID: " << current->id <<std::endl;
-        std::cout <<"Fecha de creacion: " << current->creationDate <<std::endl;
-        std::cout <<"Contenido: " << current->content<< std::endl;
-        std::cout <<"***********************************" <<std::endl;
+        showNote(current);
         current = current->next;
     }
 }
@@ -226,7 +221,7 @@ bool isStackEmpty(NoteStack *& stack) {
 void runNotesApp(NoteStack *& stack) {
     loadNotes(stack);
     int op = -1;
-    std::string keyword;
+    std::string description;
     char confirmation;
     while (op < 0 || op > 7) {
         menuNotesApp();
@@ -237,17 +232,50 @@ void runNotesApp(NoteStack *& stack) {
             continue;
         }
         switch (op) {
-            case 1:
+            case 1: {
                 std::cin.ignore();
-                pushNote(stack);
+                NoteNode* note = buildNote();
+                pushNote(stack,note);
+                std::cout << "Nota apilada correctamente" << std::endl;
+                std::cout << "presione una tecla para continuar..." << std::endl;
+                std::cin.ignore(); std::cin.get();
                 op = -1;
                 break;
-            case 2:
-                peekNote(stack);
+            }
+
+            case 2: {
+                NoteNode* top = peekNote(stack);
+                if (top == nullptr) {
+                    std::cout << "LA PILA ESTA VACIA" <<std::endl;
+                }else {
+                    std::cout << "TOPE DE LA PILA:" <<std::endl;
+                    std::cout << "ID: " << top->id <<std::endl;
+                    std::cout <<"Fecha de creacion: " << top->creationDate <<std::endl;
+                    std::cout <<"Contenido: " << top->content<< std::endl;
+                    std::cout <<"***********************************" <<std::endl;
+                }
+                std::cout << "presione una tecla para continuar..." << std::endl;
+                std::cin.ignore(); std::cin.get();
                 op = -1;
                 break;
+            }
             case 3:
-                popNote(stack);
+                peekNote(stack);
+                std::cout << "Se eliminara esta nota, desea continuar? (Y/n)" <<std::endl;
+                std::cin >> confirmation;
+                confirmation = toupper(confirmation);
+                if (confirmation != 'N') {
+                    NoteNode *aux = stack->top;
+                    stack->top = stack->top->next;
+                    delete aux;
+                    std::cout << "Eliminacion realizada correctamente" << std::endl;
+                    std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                    std::cin.ignore() , std::cin.get();
+                }else {
+                    std::cout << "Eliminacin cancelada" <<std::endl;
+                    std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                    std::cin.ignore() , std::cin.get();
+                }
                 op = -1;
                 break;
             case 4:
@@ -258,8 +286,8 @@ void runNotesApp(NoteStack *& stack) {
             case 5:
                 std::cin.ignore();
                 std::cout << "Ingrese la palabra clave o frase para buscar coincidencias: " <<std::endl;
-                std::getline(std::cin , keyword);
-                lookForNote(stack, keyword);
+                std::getline(std::cin , description);
+                lookForNote(stack, description);
                 op = -1;
                 break;
             case 6:
