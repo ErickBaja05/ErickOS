@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "bankSimulatorApp/bankSimulatorApp.h"
-
+#include "utils/utils.h"
 
 
 int N_CLIENT = 1;
@@ -20,21 +20,30 @@ void menuBankApp(){
     std::cout << "Ingrese una opcion: ";
 }
 
-void queueClient(ClientQueue *&queue) {
-    ClientNode *newNode = new ClientNode();
-    if (isEmpty(queue)) {
-        queue->head = newNode;
-        queue->tail = newNode;
+void enqueueClient(ClientQueue *&queue, ClientNode *client) {
+    if (isQueueEmpty(queue)) {
+        queue->head = client;
+        queue->tail = client;
         return;
     }
 
-    queue->tail->next = newNode;
-    queue->tail = newNode;
+    queue->tail->next = client;
+    queue->tail = client;
 
 }
+ClientNode* buildCliente() {
+    ClientNode* client = new ClientNode();
+    client->id = N_CLIENT++;
+    client->arrivalTime = getTimeCustom();
+    std::cout << "INGRESE EL NOMBRE DEL CLIENTE: " << std::endl;
+    std::getline(std::cin, client->name);
+    std::cout << "INGRESE EL TIPO DE SERVICIO: " <<std::endl;
+    std::getline(std::cin, client->serviceType);
+    return client;
+}
 
-void dequeue(ClientQueue *&queue) {
-    if (isEmpty(queue)) {
+void dequeueClient(ClientQueue *&queue) {
+    if (isQueueEmpty(queue)) {
         std::cout << "Dequeue de empty queue" <<std::endl;
         return;
     }
@@ -47,11 +56,22 @@ void dequeue(ClientQueue *&queue) {
     }
 }
 
+void peekClient(ClientQueue *&queue) {
+    if (isQueueEmpty(queue)) {
+        std::cout << "Peek empty queue" <<std::endl;
+        return;
+    }
+    std::cout << "PROXIMO CLIENTE A ATENDERSE: " <<std::endl;
+    std::cout << "ID: " << queue->head->id << std::endl;
+    std::cout << "NOMBRE " << queue->head->name<< std::endl;
+    std::cout << "TIPO DE SERVICIO: " << queue->head->serviceType<< std::endl;
+    std::cout << "FECHA Y HORA DE INGRESO: " << queue->head->arrivalTime << std::endl;
+    std::cout << "----------------------------" << std::endl;
+}
 
 
 
-bool isEmpty(ClientQueue *&queue) {
-
+bool isQueueEmpty(ClientQueue *&queue) {
     return queue->head == nullptr;
 }
 

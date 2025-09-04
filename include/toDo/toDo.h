@@ -11,17 +11,16 @@
  */
 extern int N_TASK;
 /**
- * @struct TasKNode
+ * @struct TaskNode
  * @brief Node of the linkedList that represents a task to do
  * Contains all the  information required for a task and a pointer to the next Node
  */
-struct TasKNode {
+struct TaskNode {
     int id = N_TASK;
     std::string description;
     std::string dateCreated;
     bool status = false;
-    TasKNode *next = nullptr;
-
+    TaskNode *next = nullptr;
 };
 /**
  * @struct TaskList
@@ -29,7 +28,7 @@ struct TasKNode {
  * It only contains the Node head initialized as a null pointer.
  */
 struct TaskList {
-    TasKNode *head = nullptr;
+    TaskNode *head = nullptr;
 };
 /**
  * @brief Menu to indicate the user the funcionalities of the program
@@ -37,59 +36,93 @@ struct TaskList {
 void menuToDo();
 /**
  * @brief Function to add a new task to the list
- * @details It creates nodes in heap memory and are linked trough the head
  * @param list pointer to the list where the task will be added.
- * @param description a string representing the description of the task to be saved
+ * @param task is a pointer to a TaskNode which represents the task to be added
  */
-void addTask(TaskList *& list ,std::string description);
 
+/**
+ *@brief verifies if the list is empty or not
+ *@return bool which indicates if the list is empty or not
+ *@param list is the list to be evaluated
+ *
+*/
+bool isListEmpty(TaskList *& list);
+
+/**
+ * @brief function to add a Node to the list at the end of the list
+ * @param list is the list where the TaskNode is going to be added
+ * @param task is a previously built TaskNode to be added
+ */
+void addTask(TaskList *& list, TaskNode* task);
+
+/**
+ *
+ * @brief Function to collect data from console and store it in a TaskNode
+ * @return TaskNode* pointer to the node which all the information of the task to be added
+ */
+TaskNode* buildTask();
 /**
  * @brief prints on screen all the task and show if they are completed or not yet
  * @param list pointer to the list where the task are stored
  */
 void showTasks(TaskList *&list);
+
+/**
+ * @brief iterate over all the list until it finds a TaskNode whose id value is equal to the value given
+ * @param list is the list where all TaskNodes are stored
+ * @param id is the identifier to be compared with each TaskNodes id values
+ * @return TaskNode* pointer the Node whose value where equals to the id given
+ * if the functions returns a nullptr it means a node with the value given was not founded
+ */
+TaskNode* lookTaskId(TaskList *& list, int id);
 /**
  * @brief deletes a task from the list and releases its memory
- * Looks for a task by the ID provided
  * @param list pointer to the list where task are stored
- * @param id identifier of the task to be deleted, it is given by the user
- * @details if there is not a task with the id provided, the function does nothing and shows a message on screen stating this.
+ * @param task node to be eliminated
+ * @details node must be part of the list for the function to work, links will work correctly
  */
-void deleteTask(TaskList *& list, int ID);
+void deleteTask(TaskList *& list, TaskNode* task);
 /**
  * @brief allows to change the value of the status field of the Node structure from false to true, meaning a task was completed
- * @param list  pointer to the list where the task are stored
- * @param id identifier or the task to be updated, it is given by the user
- * @details if there is not a task with the id provided, function does nothing and shows a message on screen stating this.
+ * @param task node whose value is going to be modified
  */
-void completeTask(TaskList *&list, int id);
+void completeTask(TaskNode* task);
 /**
  * @brief delete all nodes and releases all the memory used by them
  * @param list pointer to the list where the task are stored
  */
 void emptyList(TaskList *&list);
 /**
- * @brief look and print on the screen all the task whose description contains a word or string given
+ * @brief look for TaskNode whose description contains a keyword or a phrase
  * @param list pointer to the list where task are saved
  * @param keyword string to be searched onto the description of all nodes
  * @details it is not case-sensitive, "PLAY" and "play" are treated the same. The conversion of the strings to uppercase is done with the help of auxiliaries variables to do not modify the original content.
+ * It stores all the coincidences in an auxiliar list
+ * @return TaskList* is the auxiliar list where all nodes which coincidences where added
 
  */
-void lookForTask(TaskList *list, std::string &keyword);
+TaskList* lookForTasks(TaskList *list ,std::string &keyword);
 /**
  * @brief store all the uncompleted task in a txt file. 
  * @param list pointer to the list where task are saved
  * @details it only stores task which has not been completed yet. Completed task are completely ignored
+ * @return int which indicates if process ended well of there were mistakes
+ * if funtions returns  1: error while opening the file to store Task
+ * if functions returns 2: List is empty
+ * if functions returns 0: Everything went ok
  */
-void saveTasks(TaskList *&list);
+int saveTasks(TaskList *&list);
 
 /**
  * @brief load all the task stored in the txt filed to the list of the program.
  * @param list pointer to the list where task will be saved
  * @details it increments the N_TASK variable to do not allow duplicated ids for the tasks at the end of the load process
- * 
+ * @return int which indicates if process ended well of there were mistakes
+ * if funtions returns  1: The file is empty
+ * if functions returns 2: error while opening the file to load Task
+ * if functions returns 0: Everything went ok
  */
-void loadTasks(TaskList *&list);
+int loadTasks(TaskList *&list);
 
 /**
  * @brief function to call all the funcionalities of the program

@@ -31,20 +31,17 @@ void menuNotesApp(){
 void pushNote(NoteStack *& stack) {
 
     NoteNode *newNote = new NoteNode();
-    newNote->id = N_NOTE;
-    N_NOTE++;
+    newNote->id = N_NOTE++;
     newNote->creationDate = getTimeCustom();
     std::cout << "Ingresa el contenido de la nota: " << std::endl;
     getline(std::cin,newNote->content);
     newNote->next = stack->top;
     stack->top = newNote;
-
-
     std::cout << "Nota agregada correctamente " << std::endl;
 
 }
 void peekNote(NoteStack *& stack) {
-    if (isEmpty(stack)) {
+    if (isStackEmpty(stack)) {
         std::cout <<" LA PILA ESTA VACIA " <<std::endl;
         std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
         std::cin.ignore() , std::cin.get();
@@ -59,7 +56,7 @@ void peekNote(NoteStack *& stack) {
 }
 
 void popNote(NoteStack *& stack) {
-    if (isEmpty(stack)) {
+    if (isStackEmpty(stack)) {
         std::cout <<" LA PILA ESTA VACIA " <<std::endl;
         std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
         std::cin.ignore() , std::cin.get();
@@ -87,7 +84,7 @@ void popNote(NoteStack *& stack) {
 
 
 void showStackNotes(NoteStack *& stack) {
-    if (isEmpty(stack)) {
+    if (isStackEmpty(stack)) {
         std::cout <<" LA PILA ESTA VACIA " <<std::endl;
         std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
         std::cin.ignore() , std::cin.get();
@@ -226,7 +223,7 @@ void reverseStack(NoteStack *&stack) {
     delete reversed; // Free the temporary stack (not its nodes, because they were reused)
 }
 
-bool isEmpty(NoteStack *& stack) {
+bool isStackEmpty(NoteStack *& stack) {
     return stack->top == nullptr;
 }
 void runNotesApp(NoteStack *& stack) {

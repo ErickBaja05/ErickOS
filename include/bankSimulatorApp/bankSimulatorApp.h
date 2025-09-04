@@ -26,7 +26,7 @@ struct ClientNode {
     std::string name;
     std::string serviceType;
     std::string arrivalTime;
-    ClientNode* next;
+    ClientNode* next = nullptr;
 
 };
 
@@ -50,8 +50,8 @@ void menuBankApp();
  */
 void runBankApp();
 
-bool isEmpty(ClientQueue *&queue);
-void queueClient(ClientQueue *&queue);
-void dequeue(ClientQueue *&queue);
+bool isQueueEmpty(ClientQueue *&queue);
+void enqueueClient(ClientQueue *&queue, ClientNode *client);
+void dequeueClient(ClientQueue *&queue);
 
 #endif

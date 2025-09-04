@@ -22,7 +22,7 @@ struct NoteNode {
     int id = N_NOTE;
     std::string content;
     std::string creationDate;
-    NoteNode* next;
+    NoteNode* next = nullptr;
 };
 
 /**
@@ -49,7 +49,7 @@ void menuNotesApp();
  * @param stack is the pointer to the stack where all the notes are being entered.
  */
 
-bool isEmpty(NoteStack *& stack);
+bool isStackEmpty(NoteStack *& stack);
 /**
  * @brief push a note into the stack
  * @param stack is the pointer to the stack where all the notes are being entered.
