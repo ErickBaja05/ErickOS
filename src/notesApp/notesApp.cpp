@@ -7,10 +7,7 @@
 #include <algorithm>
 #include <string>
 #include <cctype>
-
 #include <iomanip>
-
-
 #include "notesApp/notesApp.h"
 #include "utils/utils.h"
 
