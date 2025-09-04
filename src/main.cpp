@@ -60,6 +60,8 @@ void run(TaskList *& toDoList, NoteStack *& stack) {
                 break;
             case 6:
                 std::cout << "GRACIAS POR USAR ERICK OS - ERICK BAJANA 2025" << std::endl;
+                delete toDoList;
+                delete stack;
                 break;
             default:
                 std::cout << "Opcion invalida." << std::endl;

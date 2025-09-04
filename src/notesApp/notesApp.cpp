@@ -235,8 +235,8 @@ void runNotesApp(NoteStack *& stack) {
         menuNotesApp();
         std::cin >> op;
         if (op < 0 || op > 7) {
-            std::cerr << "Opcion invalida" << std::endl;
-            std::cout << std::endl;
+            std::cout << "Opcion invalida, intente otra vez" << std::endl;
+            std::cin.ignore();
             continue;
         }
         switch (op) {

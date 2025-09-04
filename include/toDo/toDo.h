@@ -61,6 +61,12 @@ void addTask(TaskList *& list, TaskNode* task);
  * @return TaskNode* pointer to the node which all the information of the task to be added
  */
 TaskNode* buildTask();
+
+/**
+ * @brief print the information of an individual task.
+ * @param task is the task whose information is going to be printed
+ */
+void showTask(TaskNode* task);
 /**
  * @brief prints on screen all the task and show if they are completed or not yet
  * @param list pointer to the list where the task are stored

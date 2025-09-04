@@ -35,8 +35,8 @@ TaskNode* buildTask() {
     task->id = N_TASK++;
     task->dateCreated = getTimeCustom();
     task->next = nullptr;
-    std::cout << "Ingrese la descripcion de la tarea: " << std::endl;
-    std::cin.ignore();
+    std::cout << "Ingrese la descripcion de la tarea: ";
+    std::cin.get();
     getline(std::cin,task->description);
     return task;
 
@@ -96,14 +96,17 @@ void deleteTask(TaskList *& list, TaskNode* task) {
 TaskList* lookForTasks(TaskList *list ,std::string &keyword) {
     TaskList* auxiliarList = new TaskList();
     TaskNode* current = list->head;
-    bool founded = false;
     std::string keywordUpper = keyword;
     std::transform(keywordUpper.begin(), keywordUpper.end(), keywordUpper.begin(), ::toupper);
     while(current!= nullptr){
         std::string descUpper = current->description;
         std::transform(descUpper.begin(), descUpper.end(), descUpper.begin(), ::toupper);
         if(descUpper.find(keywordUpper) != std::string::npos){
-           addTask(auxiliarList, current);
+            TaskNode* task = new TaskNode();
+            task->id = current->id;
+            task->dateCreated = current->dateCreated;
+            task->description = current->description;
+            addTask(auxiliarList, task);
         }
         current = current->next;
     }
@@ -114,6 +117,7 @@ void completeTask(TaskNode* task){
     task->status = true;
 
 }
+
 void showTask(TaskNode* task) {
     if(task->status){
         std::cout << "ESTADO: COMPLETADA!!!" <<std::endl;
@@ -155,7 +159,6 @@ void emptyList(TaskList *&list){
 
 }
 
-
 int saveTasks(TaskList *&list){
     int result = 0;
     std::ofstream file("data/toDo/taskTodo.txt");
@@ -187,17 +190,17 @@ int saveTasks(TaskList *&list){
 }
 
 int loadTasks(TaskList *&list){
-    int result = 0;
-    std::ifstream file("data/toDo/taskTodo.txt");
 
+    std::ifstream file("data/toDo/taskTodo.txt");
      // Verificar si el archivo está vacío
     file.peek(); 
     if (file.eof()) {
-        result = 1;
+        return 1;
     }
     if(!file){
-        result = 2;
+        return 2;
     }
+
     int id;
     int maxId = 1;
     std::string description;
@@ -225,7 +228,7 @@ int loadTasks(TaskList *&list){
         file >> id;
     }
     N_TASK = ++maxId;
-    return result;
+    return 0;
 
 }
 
@@ -236,6 +239,7 @@ void runToDo(TaskList *&list){
     std::string description;
     int id;
     char confirmation;
+
     while (option < 0 || option > 7){
         
         menuToDo();
@@ -254,7 +258,7 @@ void runToDo(TaskList *&list){
                 std::cout << "Lista de tareas en la lista: " << std::endl;
                 showTasks(list);
                 std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...."<< std::endl;
-                std::cin.ignore() ; std::cin.get();
+                std::cin.get();
                 option = -1;
                 break;
             }
@@ -301,12 +305,11 @@ void runToDo(TaskList *&list){
                     std::cout << "TAREAS QUE CONTIENEN: \" " << description << "\":" << std::endl;
                     showTasks(auxiliarList);
                     emptyList(auxiliarList);
-                    delete auxiliarList;
                 }else {
                     std::cout << "NO HAY TAREAS QUE CONTENGAN LA PALABRA CLAVE: \"" <<description <<"\"" << std::endl;
-                    delete auxiliarList;
                 }
                 option = -1;
+                delete auxiliarList;
                 break;
             }
 
@@ -365,8 +368,7 @@ void runToDo(TaskList *&list){
                     }
                 }
                 emptyList(list);
-                delete list;
-                std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR.....";
+                std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR....";
                 std::cin.ignore() ; std::cin.get();
                 break;
             }
