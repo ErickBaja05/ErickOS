@@ -46,14 +46,14 @@ void menuToDo();
  *@param list is the list to be evaluated
  *
 */
-bool isListEmpty(TaskList *& list);
+bool isListEmpty(TaskList * list);
 
 /**
  * @brief function to add a Node to the list at the end of the list
  * @param list is the list where the TaskNode is going to be added
  * @param task is a previously built TaskNode to be added
  */
-void addTask(TaskList *& list, TaskNode* task);
+void addTask(TaskList * list, TaskNode* task);
 
 /**
  *
@@ -66,12 +66,12 @@ TaskNode* buildTask();
  * @brief print the information of an individual task.
  * @param task is the task whose information is going to be printed
  */
-void showTask(TaskNode* task);
+void showTask(const TaskNode* task);
 /**
  * @brief prints on screen all the task and show if they are completed or not yet
  * @param list pointer to the list where the task are stored
  */
-void showTasks(TaskList *&list);
+void showTasks(TaskList *list);
 
 /**
  * @brief iterate over all the list until it finds a TaskNode whose id value is equal to the value given
@@ -80,14 +80,14 @@ void showTasks(TaskList *&list);
  * @return TaskNode* pointer the Node whose value where equals to the id given
  * if the functions returns a nullptr it means a node with the value given was not founded
  */
-TaskNode* lookTaskId(TaskList *& list, int id);
+TaskNode* lookTaskId(const TaskList * list, int id);
 /**
  * @brief deletes a task from the list and releases its memory
  * @param list pointer to the list where task are stored
  * @param task node to be eliminated
  * @details node must be part of the list for the function to work, links will work correctly
  */
-void deleteTask(TaskList *& list, TaskNode* task);
+void deleteTask(TaskList * list, TaskNode* task);
 /**
  * @brief allows to change the value of the status field of the Node structure from false to true, meaning a task was completed
  * @param task node whose value is going to be modified previously looked by id
@@ -97,7 +97,7 @@ void completeTask(TaskNode* task);
  * @brief delete all nodes and releases all the memory used by them
  * @param list pointer to the list where the task are stored
  */
-void emptyList(TaskList *&list);
+void emptyList(TaskList *list);
 /**
  * @brief look for TaskNode whose description contains a keyword or a phrase
  * @param list pointer to the list where task are saved
@@ -107,7 +107,7 @@ void emptyList(TaskList *&list);
  * @return TaskList* is the auxiliar list where all nodes which coincidences where added
 
  */
-TaskList* lookForTasks(TaskList *list ,std::string &keyword);
+TaskList* lookForTasks(const TaskList *list , const std::string &keyword);
 /**
  * @brief store all the uncompleted task in a txt file. 
  * @param list pointer to the list where task are saved
@@ -117,7 +117,7 @@ TaskList* lookForTasks(TaskList *list ,std::string &keyword);
  * if functions returns 2: List is empty
  * if functions returns 0: Everything went ok
  */
-int saveTasks(TaskList *&list);
+int saveTasks(TaskList *list);
 
 /**
  * @brief load all the task stored in the txt filed to the list of the program.
@@ -128,7 +128,7 @@ int saveTasks(TaskList *&list);
  * if functions returns 2: error while opening the file to load Task
  * if functions returns 0: Everything went ok
  */
-int loadTasks(TaskList *&list);
+int loadTasks(TaskList *list);
 
 /**
  * @brief function to call all the funcionalities of the program
@@ -136,7 +136,7 @@ int loadTasks(TaskList *&list);
  * @details when the program is about to get closed, it automatically calls saveTask funtion, completed task are deleted.
  * At the end of the execution of this module, the list is deleted and its memory released.
  */
-void runToDo(TaskList *&list);
+void runToDo(TaskList *list);
 
 
 

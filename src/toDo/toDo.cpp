@@ -38,7 +38,7 @@ TaskNode* buildTask() {
 
 }
 
-void addTask(TaskList *& list, TaskNode* task){
+void addTask(TaskList * list, TaskNode* task){
     // FIRST ELEMENT ADDED
     if(isListEmpty(list)){
         list->head = task;
@@ -54,11 +54,11 @@ void addTask(TaskList *& list, TaskNode* task){
 
 }
 
-bool isListEmpty(TaskList *& list) {
+bool isListEmpty(TaskList * list) {
     return list->head == nullptr;
 }
 
-TaskNode* lookTaskId(TaskList *& list, int id) {
+TaskNode* lookTaskId(const TaskList * list, const int id) {
     TaskNode* current = list->head;
     while (current != nullptr) {
         if(current->id == id) {
@@ -70,7 +70,7 @@ TaskNode* lookTaskId(TaskList *& list, int id) {
 
 }
 
-void deleteTask(TaskList *& list, TaskNode* task) {
+void deleteTask(TaskList * list, TaskNode* task) {
     if (task == nullptr) {
         return;
     }
@@ -89,7 +89,7 @@ void deleteTask(TaskList *& list, TaskNode* task) {
     delete current;
 }
 
-TaskList* lookForTasks(TaskList *list ,std::string &keyword) {
+TaskList* lookForTasks(const TaskList *list , const std::string &keyword) {
     TaskList* auxiliarList = new TaskList();
     TaskNode* current = list->head;
     std::string keywordUpper = keyword;
@@ -114,7 +114,7 @@ void completeTask(TaskNode* task){
 
 }
 
-void showTask(TaskNode* task) {
+void showTask(const TaskNode* task) {
     if(task->status){
         std::cout << "ESTADO: COMPLETADA!!!" <<std::endl;
     }else{
@@ -126,7 +126,7 @@ void showTask(TaskNode* task) {
     std::cout << "------------------------------------" << std::endl;
 }
 
-void showTasks(TaskList *&list){
+void showTasks(TaskList *list){
     if(isListEmpty(list)){
         return;
     }
@@ -139,12 +139,11 @@ void showTasks(TaskList *&list){
     
 }
 
-void emptyList(TaskList *&list){
+void emptyList(TaskList *list){
     if (isListEmpty(list)){return;}
     TaskNode * current = list->head;
-    TaskNode * temp;
     while(current != nullptr){
-        temp = current;
+        TaskNode *temp = current;
         current = current->next;
         delete temp;
          
@@ -155,7 +154,7 @@ void emptyList(TaskList *&list){
 
 }
 
-int saveTasks(TaskList *&list){
+int saveTasks(TaskList *list){
     int result = 0;
     std::ofstream file("data/toDo/taskTodo.txt");
     if(!file){
@@ -185,7 +184,7 @@ int saveTasks(TaskList *&list){
 
 }
 
-int loadTasks(TaskList *&list){
+int loadTasks(TaskList *list){
 
     std::ifstream file("data/toDo/taskTodo.txt");
      // Verificar si el archivo está vacío
@@ -219,7 +218,7 @@ int loadTasks(TaskList *&list){
 
 }
 
-void runToDo(TaskList *&list){
+void runToDo(TaskList *list){
     int load = loadTasks(list);
     if (load == 2){ std::cout << "Error al momento de acceder a los datos guardados" <<std::endl;};
     int option = -1;

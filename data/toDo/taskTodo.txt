@@ -1,9 +1,6 @@
 1
 comer con cami
 10/08/2025 -> 15:27
-3
-pasear al suco
-10/08/2025 -> 15:28
 6
 tomar agua
 10/08/2025 -> 15:29
@@ -13,4 +10,10 @@ REFACTORIZAR EL CODIGO DE LA APLICACION DE NOTES APP
 10
 probando
 04/09/2025 -> 11:52
+11
+cocinar para el almuerzo
+04/09/2025 -> 13:28
+12
+salir a jugar con la pelusa
+04/09/2025 -> 13:28
 -1
