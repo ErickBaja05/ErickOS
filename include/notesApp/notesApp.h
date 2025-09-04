@@ -100,7 +100,7 @@ void emptyStack(NoteStack * stack);
  * @return int The function returns a numeric value to indicate who the process went
  * if function returns 0, everything went correctly
  * if function returns 1, there was an error when trying to open the file to store the data
- * if function returns 2, the stack is empty and there is nothing to save
+ * if function returns 2, the stack is empty and there is nothing to save.
  */
 int saveNotes(NoteStack * stack);
 

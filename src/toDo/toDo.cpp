@@ -317,7 +317,7 @@ void runToDo(TaskList *list){
 
             case 5:
                 if (isListEmpty(list)) {
-                    std::cout << "LA LISTA ESTA VACIA " << std::endl;
+                    std::cout << "LA LISTA ESTA VACIA  " << std::endl;
                 }else {
                     showTasks(list);
                 }

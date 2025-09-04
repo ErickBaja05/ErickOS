@@ -75,7 +75,7 @@ void showStackNotes(NoteStack * stack) {
 }
 
 
-NoteStack* lookForNotes(NoteStack *stack, std::string keyword) {
+NoteStack* lookForNotes(NoteStack *stack, std::string keyword ) {
     NoteStack *auxStack = new NoteStack();
     NoteNode *current = stack->top;
     std::string keywordUpper = keyword;
