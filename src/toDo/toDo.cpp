@@ -366,7 +366,7 @@ void runToDo(TaskList *&list){
                 }
                 emptyList(list);
                 delete list;
-                std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR....";
+                std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR.....";
                 std::cin.ignore() ; std::cin.get();
                 break;
             }

@@ -84,7 +84,7 @@ TaskNode* lookTaskId(TaskList *& list, int id);
 void deleteTask(TaskList *& list, TaskNode* task);
 /**
  * @brief allows to change the value of the status field of the Node structure from false to true, meaning a task was completed
- * @param task node whose value is going to be modified
+ * @param task node whose value is going to be modified previously looked by id
  */
 void completeTask(TaskNode* task);
 /**
