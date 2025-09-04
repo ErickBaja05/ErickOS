@@ -158,8 +158,7 @@ int loadNotes(NoteStack * stack) {
         newNode->id = id;
         newNode->creationDate = creationDate;
         newNode->content = content;
-        newNode->next = stack->top;
-        stack->top = newNode;
+        pushNote(stack,newNode);
         file >> id;
 
     }
