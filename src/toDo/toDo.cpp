@@ -274,7 +274,7 @@ void runToDo(TaskList *list){
                     std::cout << "LA LISTA ESTA VACIA" <<std::endl;
                 }
                 std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
-                std::cin.ignore() ; std::cin.get();
+                std::cin.ignore() ;std::cin.get();
 
 
 
@@ -322,10 +322,11 @@ void runToDo(TaskList *list){
                     showTasks(list);
                 }
                 std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
-                std::cin.ignore() ; std::cin.get();
+                std::cin.ignore();std::cin.get();
                 option = -1;
                 break;
             case 6:
+                std::cin.ignore();
                 std::cout << "Se eliminaran todas las tareas de la lista , seguro quiere continuar? [Y/n]" << std::endl;
                 std::cin >> confirmation;
                 confirmation = toupper(confirmation);
@@ -333,9 +334,11 @@ void runToDo(TaskList *list){
                     emptyList(list);
                     std::cout << "La lista se ha vaciado correctamente" << std::endl;
                 }else{
-                    std::cout << "Operacion cancelada... Presione una tecla para continuar" << std::endl;
+                    std::cout << "Operacion cancelada" << std::endl;
                     std::cin.ignore() ; std::cin.get();
                 }
+                std::cout << "Presione una tecla para continuar" << std::endl;
+                std::cin.ignore() ; std::cin.get();
                 option = -1;
                 break;
             case 7:{
@@ -355,7 +358,7 @@ void runToDo(TaskList *list){
                 }
                 emptyList(list);
                 std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR....";
-                std::cin.ignore() ; std::cin.get();
+                std::cin.ignore() ;std::cin.get();
                 break;
             }
             default:
