@@ -50,5 +50,8 @@ void menuBankApp();
  */
 void runBankApp();
 
+bool isEmpty(ClientQueue *&queue);
+void queueClient(ClientQueue *&queue);
+void dequeue(ClientQueue *&queue);
 
 #endif

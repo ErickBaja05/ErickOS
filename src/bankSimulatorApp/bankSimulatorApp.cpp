@@ -20,6 +20,40 @@ void menuBankApp(){
     std::cout << "Ingrese una opcion: ";
 }
 
+void queueClient(ClientQueue *&queue) {
+    ClientNode *newNode = new ClientNode();
+    if (isEmpty(queue)) {
+        queue->head = newNode;
+        queue->tail = newNode;
+        return;
+    }
+
+    queue->tail->next = newNode;
+    queue->tail = newNode;
+
+}
+
+void dequeue(ClientQueue *&queue) {
+    if (isEmpty(queue)) {
+        std::cout << "Dequeue de empty queue" <<std::endl;
+        return;
+    }
+    ClientNode *delNode = queue->head;
+    queue->head = queue->head->next;
+    delete delNode;
+
+    if (queue->head == nullptr) {
+        queue->tail = nullptr;
+    }
+}
+
+
+
+
+bool isEmpty(ClientQueue *&queue) {
+
+    return queue->head == nullptr;
+}
 
 void runBankApp() {
     int op = -1;
