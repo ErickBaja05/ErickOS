@@ -200,13 +200,11 @@ int loadTasks(TaskList *&list){
     if(!file){
         return 2;
     }
-
     int id;
     int maxId = 1;
     std::string description;
     std::string creationDate;
     file >> id;
-    TaskNode* last = nullptr;
     while(id != -1){
         TaskNode* newNode = new TaskNode();
         newNode->id = id;
@@ -216,18 +214,11 @@ int loadTasks(TaskList *&list){
         newNode->description = description;
         std::getline(file,creationDate);
         newNode->dateCreated = creationDate;
-        
-        newNode->next = nullptr;
-        if(list->head == nullptr){
-            list->head = newNode;
-        }else{
-            last->next = newNode;    
-        }
-        last = newNode;
-        
+        addTask(list, newNode);
         file >> id;
     }
     N_TASK = ++maxId;
+    file.close();
     return 0;
 
 }
