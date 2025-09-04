@@ -47,45 +47,26 @@ NoteNode* peekNote(NoteStack * stack) {
 }
 
 
-
-void popNote(NoteStack *& stack) {
+void popNote(NoteStack * stack) {
     if (isStackEmpty(stack)) {
         return;
     }
-    char confirmation;
-    peekNote(stack);
-    std::cout << "Se eliminara esta nota, desea continuar? (Y/n)" <<std::endl;
-    std::cin >> confirmation;
-    confirmation = toupper(confirmation);
-    if (confirmation != 'N') {
-        NoteNode *aux = stack->top;
-        stack->top = stack->top->next;
-        delete aux;
-        std::cout << "Eliminacion realizada correctamente" << std::endl;
-        std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
-        std::cin.ignore() , std::cin.get();
-    }else {
-        std::cout << "Eliminacin cancelada" <<std::endl;
-        std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
-        std::cin.ignore() , std::cin.get();
-    }
+    NoteNode *aux = stack->top;
+    stack->top = stack->top->next;
+    delete aux;
 }
 
-void showNote(NoteNode *& note) {
+void showNote(const NoteNode * note) {
     std::cout << "ID: " << note->id <<std::endl;
     std::cout <<"Fecha de creacion: " << note->creationDate <<std::endl;
-    std::cout <<"Contenido: " << note->content<< std::endl;
+    std::cout <<"Contenido: " << note->content << std::endl;
     std::cout <<"***********************************" <<std::endl;
 }
 
-void showStackNotes(NoteStack *& stack) {
+void showStackNotes(NoteStack * stack) {
     if (isStackEmpty(stack)) {
-        std::cout <<" LA PILA ESTA VACIA " <<std::endl;
-        std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
-        std::cin.ignore() , std::cin.get();
         return;
     }
-    std::cout << "***** NOTAS APILADAS******" <<std::endl;
     NoteNode *current = stack->top;
     while (current != nullptr) {
         showNote(current);
@@ -93,31 +74,31 @@ void showStackNotes(NoteStack *& stack) {
     }
 }
 
-void lookForNote(NoteStack *& stack , std::string keyword ) {
-    bool founded = false;
+
+NoteStack* lookForNotes(NoteStack *stack, std::string keyword) {
+    NoteStack *auxStack = new NoteStack();
     NoteNode *current = stack->top;
-    std::cout << "NOTAS QUE CONTIENEN LA PALABRA: \"" << keyword << "\"EMPEZANDO DESDE LA MAS RECIENTE" <<std::endl;
     std::string keywordUpper = keyword;
     std::transform(keywordUpper.begin(), keywordUpper.end(), keywordUpper.begin(), ::toupper);
     while (current!= nullptr) {
         std::string contentUpper = current->content;
         std::transform(contentUpper.begin(), contentUpper.end(), contentUpper.begin(), ::toupper);
-        if (contentUpper == keywordUpper) {
-            founded = true;
-            std::cout << "ID: " << current->id <<std::endl;
-            std::cout <<"Fecha de creacion: " << current->creationDate <<std::endl;
-            std::cout <<"Contenido: " << current->content<< std::endl;
-            std::cout <<"***********************************" <<std::endl;
+        if (contentUpper.find(keywordUpper) != std::string::npos) {
+            NoteNode* note = new NoteNode();
+            note->id = current->id;
+            note->content = current->content;
+            note->creationDate = current->creationDate;
+            pushNote(auxStack, note);
 
         }
         current = current->next;
     }
-    if (!founded) {
-        std::cout << "NO EXISTEN NOTAS CON LA PALABRA: " << keyword << std::endl;
-    }
+    reverseStack(auxStack);
+    return auxStack;
+
 }
 
-void emptyStack(NoteStack *& stack) {
+void emptyStack(NoteStack * stack) {
     NoteNode *current = stack->top;
     NoteNode *temp;
     while (current != nullptr) {
@@ -126,20 +107,17 @@ void emptyStack(NoteStack *& stack) {
         delete temp;
     }
     stack->top = nullptr;
-    std::cout << "La pila ha sido vaciada correctamente: " << std::endl;
 }
 
-void saveNotes(NoteStack *& stack) {
+int saveNotes(NoteStack *stack) {
     std::ofstream outFile;
     outFile.open("data/notesApp/notes.txt");
     if(!outFile){
-        std::cout << "Error al abrir el archivo para guardar los datos" << std::endl;
-        return;
+        return 1;
     }
 
     if (stack->top == nullptr) {
-        std::cout << "NO SE TIENEN NOTAS PARA GUARDAR" << std::endl;
-        return;
+        return 2;
     }
 
     NoteNode *aux = stack->top;
@@ -149,22 +127,22 @@ void saveNotes(NoteStack *& stack) {
         outFile << aux->content << std::endl;
         aux = aux->next;
     }
+
     outFile << -1;
     outFile.close();
-
+    return 0;
 }
 
-void loadNotes(NoteStack *& stack) {
+int loadNotes(NoteStack * stack) {
     std::ifstream file("data/notesApp/notes.txt");
 
     if(!file){
-        std::cout << "Error al abrir el archivo para guardar los datos" << std::endl;
-        return;
+        return 1;
     }
     // Verificar si el archivo está vacío
     file.peek();
     if (file.eof()) {
-        return;
+        return 2;
     }
     int id;
     int maxId = 1;
@@ -186,40 +164,37 @@ void loadNotes(NoteStack *& stack) {
 
     }
 
-
     file.close();
     reverseStack(stack);
     N_NOTE = ++ maxId;
+    return 0;
 }
 
-void reverseStack(NoteStack *&stack) {
-    if (stack == nullptr || stack->top == nullptr || stack->top->next == nullptr) {
-        // Nothing to reverse if stack is empty or has only one element
+void reverseStack(NoteStack * stack) {
+    if (stack->top == nullptr || stack->top->next == nullptr) {
         return;
     }
 
-    NoteStack *reversed = new NoteStack(); // temporary stack
+    NoteStack *reversed = new NoteStack();
 
-    // Pop elements from original and push into reversed
-    NoteNode *current = stack->top;
+   NoteNode *current = stack->top;
     while (current != nullptr) {
-        NoteNode *nextNode = current->next;  // Save the next node
-        current->next = reversed->top;       // Point to top of reversed stack
-        reversed->top = current;             // Move current node to reversed stack
-        current = nextNode;                  // Move to next node
+        NoteNode *nextNode = current->next;
+        current->next = reversed->top;
+        reversed->top = current;
+        current = nextNode;
     }
-
-    // Update original stack to reversed
     stack->top = reversed->top;
-
-    delete reversed; // Free the temporary stack (not its nodes, because they were reused)
+    delete reversed;
 }
 
-bool isStackEmpty(NoteStack *& stack) {
+bool isStackEmpty(NoteStack * stack) {
     return stack->top == nullptr;
 }
-void runNotesApp(NoteStack *& stack) {
-    loadNotes(stack);
+void runNotesApp(NoteStack * stack) {
+    if (loadNotes(stack) == 1) {
+        std::cout << "Error al abrir el archivo para recuperar los datos guardados" << std::endl;
+    }
     int op = -1;
     std::string description;
     char confirmation;
@@ -238,7 +213,7 @@ void runNotesApp(NoteStack *& stack) {
                 pushNote(stack,note);
                 std::cout << "Nota apilada correctamente" << std::endl;
                 std::cout << "presione una tecla para continuar..." << std::endl;
-                std::cin.ignore(); std::cin.get();
+                std::cin.get();
                 op = -1;
                 break;
             }
@@ -249,66 +224,91 @@ void runNotesApp(NoteStack *& stack) {
                     std::cout << "LA PILA ESTA VACIA" <<std::endl;
                 }else {
                     std::cout << "TOPE DE LA PILA:" <<std::endl;
-                    std::cout << "ID: " << top->id <<std::endl;
-                    std::cout <<"Fecha de creacion: " << top->creationDate <<std::endl;
-                    std::cout <<"Contenido: " << top->content<< std::endl;
-                    std::cout <<"***********************************" <<std::endl;
+                    showNote(top);
                 }
                 std::cout << "presione una tecla para continuar..." << std::endl;
                 std::cin.ignore(); std::cin.get();
                 op = -1;
                 break;
             }
-            case 3:
-                peekNote(stack);
+            case 3: {
+                std::cin.ignore();
+                NoteNode* top = peekNote(stack);
+                showNote(top);
                 std::cout << "Se eliminara esta nota, desea continuar? (Y/n)" <<std::endl;
                 std::cin >> confirmation;
                 confirmation = toupper(confirmation);
                 if (confirmation != 'N') {
-                    NoteNode *aux = stack->top;
-                    stack->top = stack->top->next;
-                    delete aux;
+                    popNote(stack);
                     std::cout << "Eliminacion realizada correctamente" << std::endl;
-                    std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
-                    std::cin.ignore() , std::cin.get();
                 }else {
-                    std::cout << "Eliminacin cancelada" <<std::endl;
-                    std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
-                    std::cin.ignore() , std::cin.get();
+                    std::cout << "Eliminacion cancelada" <<std::endl;
+
                 }
                 op = -1;
+                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                std::cin.ignore() ;std::cin.get();
                 break;
+            }
+
             case 4:
+                std::cout << "***** NOTAS APILADAS******" <<std::endl;
                 showStackNotes(stack);
-                std::cout << "STILL BEING DEVELOPED" << std::endl;
+                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                std::cin.ignore();std::cin.get();
                 op = -1;
                 break;
-            case 5:
+            case 5: {
                 std::cin.ignore();
                 std::cout << "Ingrese la palabra clave o frase para buscar coincidencias: " <<std::endl;
                 std::getline(std::cin , description);
-                lookForNote(stack, description);
+                NoteStack* auxStack = lookForNotes(stack, description);
+                if (isStackEmpty(auxStack)) {
+                    std::cout << "NO EXISTEN NOTAS CON LA PALABRA: " << description << std::endl;
+                }else {
+                    std::cout << "NOTAS QUE CONTIENEN: \"" << description << "\"EMPEZANDO DESDE LA MAS RECIENTE" <<std::endl;
+                    showStackNotes(auxStack);
+                    emptyStack(auxStack);
+                    delete auxStack;
+                }
+                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                std::cin.get();
                 op = -1;
                 break;
+            }
+
             case 6:
+                std::cin.ignore();
                 std::cout << "Se eliminaran todas las notas de la pila , seguro quiere continuar? [Y/n]" << std::endl;
                 std::cin >> confirmation;
                 confirmation = toupper(confirmation);
                 if(confirmation != 'N'){
                     emptyStack(stack);
+                    std::cout << "La pila ha sido vaciada correctamente: " << std::endl;
                 }else{
-                    std::cout << "Operacion cancelada... Presione una tecla para continuar" << std::endl;
-                    std::cin.ignore() , std::cin.get();
+                    std::cout << "Operacion cancelada" << std::endl;
+
                 }
+                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                std::cin.ignore() ; std::cin.get();
                 op = -1;
                 break;
             case 7:
-                std::cout << "Guardando pila de notas en el archivo notas.txt..." <<std::endl;
-                saveNotes(stack);
-                std::cout << "NOTAS GUARDADAS" << std::endl;
-                std::cout << "Hasta pronto" << std::endl;
-                emptyStack(stack);
-                delete stack;
+                if (isStackEmpty(stack)) {
+                    std::cout << "NO SE TIENEN NOTAS PARA GUARDAR" << std::endl;
+                }else {
+                    if (saveNotes(stack) == 1) {
+                        std::cout << "Error al abrir el archivo para guardar los datos" << std::endl;
+                    }else {
+                        std::cout << "Guardando pila de notas en el archivo notas.txt..." <<std::endl;
+                        std::cout << "NOTAS GUARDADAS" << std::endl;
+                        std::cout << "Hasta pronto" << std::endl;
+                        emptyStack(stack);
+                    }
+                }
+                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                std::cin.ignore();std::cin.get();
+
                 break;
             default:
                 std::cout << "Opcion invalida" << std::endl;

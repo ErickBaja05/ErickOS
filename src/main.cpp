@@ -11,8 +11,8 @@ void mainMenu();
 
 int main(){
     TaskList * toDoList = new TaskList();
-    NoteStack * stack = new NoteStack();
-    run(toDoList,stack);
+    NoteStack * notesStack = new NoteStack();
+    run(toDoList,notesStack);
 }
 
 void mainMenu(){

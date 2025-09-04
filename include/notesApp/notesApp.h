@@ -38,7 +38,7 @@ struct NoteStack {
  * @brief calls all the functions of the notesApp program
  * @param stack is the pointer to the stack where all the notes are being entered.
  */
-void runNotesApp(NoteStack *& stack);
+void runNotesApp(NoteStack * stack);
 
 /**
  * @brief menu to show all the options availabe for the NotesApp program.
@@ -47,9 +47,10 @@ void menuNotesApp();
 /**
  * @brief verify if the stack is empty
  * @param stack is the pointer to the stack where all the notes are being entered.
+ * @return bool depending on the stack if is empty or not. True if it is, false otherwise
  */
 
-bool isStackEmpty(NoteStack *& stack);
+bool isStackEmpty(NoteStack * stack);
 
 /**
  * @brief create a NoteNode to be stored in the stack
@@ -72,39 +73,49 @@ NoteNode* peekNote(NoteStack * stack) ;
  * @brief shows all the notes in the stack starting till the last one added (LIFO)
  * @param stack is the pointer to the stack where all the notes are being entered.
  */
-void showStackNotes(NoteStack *& stack) ;
+void showStackNotes(NoteStack * stack) ;
 /**
- * @brief shows the last node added and after confirmation of the user the note is popped
+ * @brief delete the top of the stack (LIFO)
  * @param stack is the pointer to the stack where all the notes are being entered.
  */
-void popNote(NoteStack *& stack) ;
+void popNote(NoteStack * stack) ;
 /**
- * @brief shows notes which content contains one instance of a keyword given. Case un-sensitive function.
+ * @brief generate a new stack with all the NoteNodes which contains a keyword or a phrase (keysensitive).
+ * The stack is reversed to guarantee that data is correctly shown when needed (LIFO)
  * @param stack is the pointer to the stack where all the notes are being entered.
  * @param keyword is the string to be evaluated. It will be transformed to uppercase
+ * @return NoteStacl* returns an auxiliar stack with the notes that math.
  */
-void lookForNote(NoteStack *& stack , std::string keyword );
+NoteStack* lookForNotes(NoteStack *stack, std::string keyword) ;
 
 /**
  * @brief empty the stack realising all the memory previously located
  * @param stack is the pointer to the stack where all the notes are being entered.
  */
-void emptyStack(NoteStack *& stack);
+void emptyStack(NoteStack * stack);
 
 /**
  * @brief save the stack in the txt file.
  * @param stack is the pointer to the stack where all the notes are being entered.
+ * @return int The function returns a numeric value to indicate who the process went
+ * if function returns 0, everything went correctly
+ * if function returns 1, there was an error when trying to open the file to store the data
+ * if function returns 2, the stack is empty and there is nothing to save
  */
-void saveNotes(NoteStack *& stack);
+int saveNotes(NoteStack * stack);
 
 /**
  * @brief retrive all notes from the txt file , the stack is reversed due to LIFO structure
  * @param stack is the pointer to the stack where all the notes are being entered.
+ * @return int The function returns a numeric value to indicate who the process went
+ * if function returns 0, everything went correctly
+ * if function returns 1, there was an error when trying to open the file to load the data
+ * if function returns 2, the stack is empty and there is nothing to load
  */
-void loadNotes(NoteStack *& stack);
+int loadNotes(NoteStack * stack);
 /**
  * @brief reverse the stack to have the data exactly as it was
  * @param stack is the pointer to the stack where all the notes are being entered.
  */
-void reverseStack(NoteStack *&stack);
+void reverseStack(NoteStack *stack);
 #endif
