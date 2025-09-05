@@ -80,7 +80,7 @@ void showStackNotes(NoteStack * stack) ;
  */
 void popNote(NoteStack * stack) ;
 /**
- * @brief generates a new stack with all the NoteNodes which contains a keyword or a phrase (keysensitive).
+ * @brief generates a new stack with all the NoteNodes which contains a keyword or a phrase.
  * The stack is reversed to guarantee that data is correctly shown when needed (LIFO)
  * @details it is not case-sensitive, "PLAY" and "play" are treated the same. The conversion of the strings to uppercase is done with the help of auxiliaries variables to do not modify the original content.
  * @param stack is the pointer to the stack where all the notes are being entered.
