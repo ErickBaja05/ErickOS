@@ -113,9 +113,10 @@ TaskList* lookForTasks(const TaskList *list , const std::string &keyword);
  * @param list pointer to the list where task are saved
  * @details it only stores task which has not been completed yet. Completed task are completely ignored
  * @return int which indicates if process ended well of there were mistakes
- * if funtions returns  1: error while opening the file to store Task
- * if functions returns 2: List is empty
- * if functions returns 0: Everything went ok
+ *          - 0: Success — notes saved correctly.
+ *         - 1: Error — failed to open the file.
+ *         - 2: Warning — List is empty, nothing to save.
+
  */
 int saveTasks(TaskList *list);
 
@@ -124,9 +125,10 @@ int saveTasks(TaskList *list);
  * @param list pointer to the list where task will be saved
  * @details it increments the N_TASK variable to do not allow duplicated ids for the tasks at the end of the load process
  * @return int which indicates if process ended well of there were mistakes
- * if funtions returns  1: The file is empty
- * if functions returns 2: error while opening the file to load Task
- * if functions returns 0: Everything went ok
+ *          - 0: Success — task loaded correctly.
+ *         - 1: Error — failed to open the file.
+ *         - 2: Warning — file is empty, nothing to load.
+
  */
 int loadTasks(TaskList *list);
 
