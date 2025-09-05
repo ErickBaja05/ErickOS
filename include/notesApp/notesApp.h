@@ -80,11 +80,12 @@ void showStackNotes(NoteStack * stack) ;
  */
 void popNote(NoteStack * stack) ;
 /**
- * @brief generates a new stack with all the NoteNodes which contains a keyword or a phrase (keysensitive).
+ * @brief generates a new stack with all the NoteNodes which contains a keyword or a phrase (case-insensitive).
  * The stack is reversed to guarantee that data is correctly shown when needed (LIFO)
  * @param stack is the pointer to the stack where all the notes are being entered.
  * @param keyword is the string to be evaluated. It will be transformed to uppercase
  * @return NoteStacl* returns an auxiliar stack with the notes that math.
+ * @details it is not case-sensitive, "PLAY" and "play" are treated the same. The conversion of the strings to uppercase is done with the help of auxiliaries variables to do not modify the original content.
  */
 NoteStack* lookForNotes(NoteStack *stack, std::string keyword) ;
 
