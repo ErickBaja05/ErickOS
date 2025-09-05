@@ -5,9 +5,6 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-#include <string>
-#include <cctype>
-#include <iomanip>
 #include "notesApp/notesApp.h"
 #include "utils/utils.h"
 
@@ -99,14 +96,9 @@ NoteStack* lookForNotes(NoteStack *stack, std::string keyword ) {
 }
 
 void emptyStack(NoteStack * stack) {
-    NoteNode *current = stack->top;
-    NoteNode *temp;
-    while (current != nullptr) {
-        temp = current;
-        current = current->next;
-        delete temp;
+    while (!isStackEmpty(stack)) {
+        popNote(stack);
     }
-    stack->top = nullptr;
 }
 
 int saveNotes(NoteStack *stack) {
@@ -233,16 +225,20 @@ void runNotesApp(NoteStack * stack) {
             case 3: {
                 std::cin.ignore();
                 NoteNode* top = peekNote(stack);
-                showNote(top);
-                std::cout << "Se eliminara esta nota, desea continuar? (Y/n)" <<std::endl;
-                std::cin >> confirmation;
-                confirmation = toupper(confirmation);
-                if (confirmation != 'N') {
-                    popNote(stack);
-                    std::cout << "Eliminacion realizada correctamente" << std::endl;
+                if (top == nullptr) {
+                    std::cout << "LA PILA ESTA VACIA" <<std::endl;
                 }else {
-                    std::cout << "Eliminacion cancelada" <<std::endl;
+                    showNote(top);
+                    std::cout << "Se eliminara esta nota, desea continuar? (Y/n)" <<std::endl;
+                    std::cin >> confirmation;
+                    confirmation = toupper(confirmation);
+                    if (confirmation != 'N') {
+                        popNote(stack);
+                        std::cout << "Eliminacion realizada correctamente" << std::endl;
+                    }else {
+                        std::cout << "Eliminacion cancelada" <<std::endl;
 
+                    }
                 }
                 op = -1;
                 std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
@@ -250,13 +246,20 @@ void runNotesApp(NoteStack * stack) {
                 break;
             }
 
-            case 4:
-                std::cout << "***** NOTAS APILADAS******" <<std::endl;
-                showStackNotes(stack);
+            case 4: {
+                if (isStackEmpty(stack)) {
+                    std::cout << "LA PILA ESTA VACIA" <<std::endl;
+                }else {
+                    std::cout << "***** NOTAS APILADAS******" <<std::endl;
+                    showStackNotes(stack);
+                }
+
                 std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
                 std::cin.ignore();std::cin.get();
                 op = -1;
                 break;
+            }
+
             case 5: {
                 std::cin.ignore();
                 std::cout << "Ingrese la palabra clave o frase para buscar coincidencias: " <<std::endl;

@@ -1,10 +1,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <cctype>
 #include <algorithm>
-#include <iomanip>
 #include "toDo/toDo.h"
 #include "utils/utils.h"
 
@@ -250,10 +247,12 @@ void runToDo(TaskList *list){
             }
 
             case 2: {
-                std::cout << "Ingrese el id de la tarea a eliminar (puede ver todas las tareas en la opcion 5)" <<std::endl;
-                std::cin >> id;
-                TaskNode* task = lookTaskId(list,id);
-                if (!isListEmpty(list)) {
+                if (isListEmpty(list)) {
+                    std::cout << "LA LISTA ESTA VACIA" <<std::endl;
+                }else {
+                    std::cout << "Ingrese el id de la tarea a eliminar (puede ver todas las tareas en la opcion 5)" <<std::endl;
+                    std::cin >> id;
+                    TaskNode* task = lookTaskId(list,id);
                     if(task != nullptr) {
                         showTask(task);
                         std::cout << "¿Desea eliminar esta tarea? [Y/n]: ";
@@ -270,12 +269,9 @@ void runToDo(TaskList *list){
                         std::cout << "LA TAREA CON ESE ID NO EXISTE" << std::endl;
 
                     }
-                }else {
-                    std::cout << "LA LISTA ESTA VACIA" <<std::endl;
                 }
                 std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
                 std::cin.ignore() ;std::cin.get();
-
 
 
                 option = -1;
