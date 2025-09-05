@@ -108,7 +108,7 @@ int saveNotes(NoteStack *stack) {
         return 1;
     }
 
-    if (stack->top == nullptr) {
+    if (isStackEmpty(stack)) {
         return 2;
     }
 
