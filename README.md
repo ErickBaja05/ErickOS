@@ -1,8 +1,8 @@
 # ErickOS
 
 **Welcome to ErickOS!**  
-ErickOS is a modular console-based operating system simulation project where I practice and showcase fundamental data structures and algorithms using C++  
-Each mini-project within ErickOS demonstrates practical applications of data structures like linked lists, stacks, queues and more, combined with file handling and modular programming concepts.  
+ErickOS is a modular console-based project where I practice and showcase fundamental data structures and algorithms using C++  
+Each mini-project within ErickOS demonstrates practical applications of data structures like linked lists, stacks, queues and more, combined with file handling, modular programming, and software engineering principles.  
 
 ---
 
@@ -12,6 +12,7 @@ Each mini-project within ErickOS demonstrates practical applications of data str
 - [Mini Projects](#mini-projects)  
   - [To-Do List](#to-do-list)
   - [Notes App](#notesapp)
+  - [Bank Simulator App](#banksimulatorapp)
 - [Getting Started](#getting-started)
   - [Steps to build and run](#steps-to-build-and-run)   
 - [How to Use](#how-to-use)  
@@ -22,8 +23,8 @@ Each mini-project within ErickOS demonstrates practical applications of data str
 
 ## About the Project
 
-ErickOS aims to create a lightweight, text-based operating system simulation where users can access various utilities like a To-Do List manager, Music Player, and more. The focus is on clean code architecture, modular design, and solid understanding of data structures in real-world applications.  
-This project is a personal learning journey and part of my software engineering portfolio, showcasing proficiency in C++ and Java.
+ErickOS aims to create a lightweight, text-based programs where users can access various utilities like a To-Do List manager, Music Player, and more. The focus is on clean code architecture, modular design, and solid understanding of data structures in real-world applications. Also implementing software engineering and SOLID principles such as single responability for a function. 
+This project is a personal learning journey and part of my software engineering portfolio, showcasing proficiency in C++, data structures and software engineering principles.
 
 ---
 
@@ -35,7 +36,8 @@ The To-Do List is the first mini-project implemented in ErickOS. It allows users
 
 - Add tasks with descriptions and creation timestamps.  
 - Delete tasks by their unique IDs.  
-- Search tasks by keyword (case-insensitive).  
+- Search tasks by keyword (case-insensitive).
+- Delete all the task in the list
 - Save and load tasks from a text file to persist data between sessions.  
 - Tasks are automatically assigned unique incremental IDs.  
 - Only pending tasks are saved, completed tasks are excluded from the file.  
@@ -46,13 +48,28 @@ This mini-project demonstrates practical usage of pointers, dynamic memory manag
 
 The NotesApp is the second mini-project implemented in ErickOS. It allows users to take and save single notes. It uses a stack (LIFO) data structure.
 
-- Add notes with descriptions and creation timestamps.  
-- Delete notes by their unique IDs.  
-- Search notes by keyword (case-insensitive).  
+- Push notes into the stack with descriptions and creation timestamps
+- Pop a note
+- Look for the most recent note added
+- Search notes by keyword (case-insensitive).
+- Empty the stack
 - Save and load notes from a text file to persist data between sessions and maintaining the original stack.
 - Notes are automatically assigned unique incremental IDs.  
 
 This mini-project demonstrates practical usage of pointers and LIFO structures, dynamic memory management, string manipulation, file I/O, and modular programming techniques in C++.
+
+### BankSimulatorApp
+
+The BankSimulatoApp is the third mini-project implemented in ErickOS. It allows users to simulate a bank operation. It uses a queue (FIFO) data structure.
+
+- Enqueue clients with timestamp of arrival time.  
+- Dequeue a client
+- Look for the next client
+- Empty the queue
+- Save and load clients from a text file to persist data between sessions and maintaining the original queue.
+- Clients are automatically assigned unique incremental IDs.  
+
+This mini-project demonstrates practical usage of pointers and FIFO structures, dynamic memory management, file I/O, and modular programming techniques in C++.
 
 
 ---
@@ -99,8 +116,8 @@ All input/output is managed through the console for simplicity and focus on core
 
 
 ## Future Plans
-- Implement additional mini-projects: Music Player, Bank Simulator, Card Game, etc.  
-- Extend data structures to trees and AVL trees.
+- Implement additional mini-projects: Music Player, Card Game, etc.  
+- Extend data structures to trees.
 - Add graphical interface using JavaFX for Java version.
 
 ---
