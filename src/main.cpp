@@ -6,13 +6,14 @@
 #include "notesApp/notesApp.h"
 #include "bankSimulatorApp/bankSimulatorApp.h"
 
-void run(TaskList *& toDoList,NoteStack *&stack);
+void run(TaskList * list,NoteStack *stack , ClientQueue * queue);
 void mainMenu();
 
 int main(){
     TaskList * toDoList = new TaskList();
     NoteStack * notesStack = new NoteStack();
-    run(toDoList,notesStack);
+    ClientQueue * clientQueue = new ClientQueue();
+    run(toDoList,notesStack, clientQueue);
 }
 
 void mainMenu(){
@@ -27,7 +28,7 @@ void mainMenu(){
 
 }
 
-void run(TaskList *& toDoList, NoteStack *& stack) {
+void run(TaskList * list, NoteStack * stack, ClientQueue* queue) {
 
     int option = -1;
     while(option < 0 || option > 6) {
@@ -39,7 +40,7 @@ void run(TaskList *& toDoList, NoteStack *& stack) {
         }
         switch (option) {
             case 1:
-                runToDo(toDoList);
+                runToDo(list);
                 option = -1;
                 break;
             case 2:
@@ -47,7 +48,7 @@ void run(TaskList *& toDoList, NoteStack *& stack) {
                 option = -1;
                 break;
             case 3:
-                runBankApp();
+                runBankApp(queue);
                 option = -1;
                 break;
             case 4:
@@ -60,8 +61,9 @@ void run(TaskList *& toDoList, NoteStack *& stack) {
                 break;
             case 6:
                 std::cout << "GRACIAS POR USAR ERICK OS - ERICK BAJANA 2025" << std::endl;
-                delete toDoList;
+                delete list;
                 delete stack;
+                delete queue;
                 break;
             default:
                 std::cout << "Opcion invalida." << std::endl;
