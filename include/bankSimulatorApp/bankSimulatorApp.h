@@ -4,7 +4,7 @@
 
 #ifndef bankSimulatorAPP_H
 #define bankSimulatorAPP_H
-
+#include <string>
 /**
  * @brief Global counter to add unique IDs to a client
  *

@@ -4,7 +4,7 @@
 
 #ifndef notesAPP_H
 #define notesAPP_H
-
+#include <string>
 /**
  * @brief Global counter to add unique IDs to a note
  *
