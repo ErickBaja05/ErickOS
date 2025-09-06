@@ -18,6 +18,7 @@ set(SOURCES
         src/notesApp/notesApp.cpp
         src/utils/utils.cpp
         src/bankSimulatorApp/bankSimulatorApp.cpp
+        src/musicApp/musicApp.cpp
         # Agrega más src si tienes otros módulos
 )
 

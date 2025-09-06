@@ -5,6 +5,7 @@
 #include "toDo/toDo.h"
 #include "notesApp/notesApp.h"
 #include "bankSimulatorApp/bankSimulatorApp.h"
+#include "musicApp/musicApp.h"
 
 void run(TaskList * list,NoteStack *stack , ClientQueue * queue);
 void mainMenu();
@@ -21,14 +22,14 @@ void mainMenu(){
     std::cout << "1. toDo list (LinkedList)" << std::endl;
     std::cout << "2. Notes App (STACK)" << std::endl;
     std::cout << "3. Bank Simulator App (QUEUE)" << std::endl;
-    std::cout << "4. Proyecto 4" << std::endl;
+    std::cout << "4. Music Playlist APP (DOUBLY CIRCULAR LINKED LIST)" << std::endl;
     std::cout << "5. Proyecto 5" << std::endl;
     std::cout << "6. Salir" << std::endl;
     std::cout << "Ingrese una opcion: " << std::endl;
 
 }
 
-void run(TaskList * list, NoteStack * stack, ClientQueue* queue) {
+void run(TaskList * list, NoteStack * stack, ClientQueue* queue, PlayList * playlist) {
 
     int option = -1;
     while(option < 0 || option > 6) {
@@ -52,7 +53,7 @@ void run(TaskList * list, NoteStack * stack, ClientQueue* queue) {
                 option = -1;
                 break;
             case 4:
-                std::cout << "AUN EN DESAROLLO" << std::endl;
+                runMusicApp(playlist);
                 option = -1;
                 break;
             case 5:
