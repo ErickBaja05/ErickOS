@@ -21,6 +21,122 @@ void musicAppMenu() {
 
 }
 
+SongNode* buildSong() {
+    SongNode* song = new SongNode();
+    std::cout << "Ingrese el titulo de la cancion: " << std::endl;
+    getline(std::cin, song->title);
+    std::cout << "Ingrese el autor de la cancion: " << std::endl;
+    getline(std::cin, song->title);
+    std::cout << "Ingrese la duracion de la cancion en minutos: " << std::endl;
+    std::cin >> song->durationMinutes;
+    return song;
+}
+
+void addSong(PlayList* playlist, SongNode* song, int index) {
+    /*FIRST SONG ADDED TO PLAYLIST*/
+    if (isPlayListEmpty(playlist)) {
+        playlist->head = song;
+        playlist->tail = song;
+        song->next = song;
+        song->previous = song;
+        playlist->length++;
+        playlist->current = 1;
+        return;
+    }
+    /*ADITTION TO A SONG AT THE END OF THE PLAYLIST*/
+    if (index >= playlist->length) {
+        playlist->tail->next = song;
+        song->previous = playlist->tail;
+        song->next = playlist->head;
+        playlist->head->previous = song;
+        playlist->tail = song;
+        playlist->length++;
+        playlist->current = 1;
+        return;
+    }
+    /*ADITION TO THE BEGINNING OF THE PLAYLIST*/
+
+    if (index <= 1) {
+        song->next = playlist->head;
+        playlist->head->previous = song;
+        song->previous = playlist->tail;
+        playlist->tail->next = song;
+        playlist->head = song;
+        playlist->length++;
+        playlist->current = 1;
+        return;
+    }
+
+    /*ADDITION IN A SPECIFIC POSITION*/
+    int jumps = 0;
+    SongNode *current = playlist->head;
+    while (jumps < index - 1) {
+        current = current->next;
+        jumps++;
+    }
+   current->previous->next = song;
+    song->previous = current->previous;
+    song->next = current;
+    current->previous = song;
+    playlist->length++;
+    playlist->current = 1;
+
+}
+
+void deleteSong(PlayList* playlist, int index) {
+    SongNode *temp = nullptr;
+    if (isPlayListEmpty(playlist)) {
+        return;
+    }
+    /*JUST ONE ELEMENT TO DELETE*/
+    if (playlist->head == playlist->tail) {
+        delete playlist->head;
+        playlist->head = nullptr;
+        playlist->tail = nullptr;
+        playlist->length--;
+        return;
+    }
+    /*DELETE THE TAIL*/
+    if (index >= playlist->length) {
+        temp = playlist->tail;
+        playlist->tail->previous->next = playlist->head;
+        playlist->tail = playlist->tail->previous;
+        playlist->head->previous = playlist->tail;
+        playlist->length--;
+        delete temp;
+        return;
+    }
+    /*DELETE THE HEAD*/
+    if (index <= 1) {
+        temp = playlist->head;
+        playlist->head->next->previous = playlist->tail;
+        playlist->head = playlist->head->next;
+        playlist->tail->next = playlist->head;
+        playlist->length--;
+        delete temp;
+        return;
+    }
+
+    /*DELETE A NODE IN AN SPECIFIC POSITION*/
+    int jumps = 0;
+    SongNode *current = playlist->head;
+    while (jumps < index - 1) {
+
+        current = current->next;
+        jumps++;
+    }
+    current->previous->next = current->next;
+    current->next->previous = current->previous;
+    playlist->length--;
+    delete current;
+    playlist->length--;
+
+}
+
+bool isPlayListEmpty(PlayList* playlist) {
+    return playlist->head == nullptr;
+}
+
 void runMusicApp(PlayList *playlist) {
     int option = -1 ;
     while (option < 0 || option > 11) {

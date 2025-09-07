@@ -29,6 +29,7 @@ struct PlayList {
     SongNode* head = nullptr;
     SongNode* tail = nullptr;
     int length = 0;
+    int current = 0;
 };
 
 /**
@@ -41,5 +42,10 @@ void musicAppMenu();
  * @param playlist is the doubly circular linked list used by the program
  */
 void runMusicApp(PlayList *playlist);
+
+bool isPlayListEmpty(PlayList* playlist);
+SongNode* buildSong();
+void addSong(PlayList* playlist, SongNode* song, int index);
+
 
 #endif
