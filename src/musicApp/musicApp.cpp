@@ -18,7 +18,8 @@ void musicAppMenu() {
     std::cout << "7. Reproducir toda la lista de reproduccion " <<std::endl;
     std::cout << "8. Reproducir toda la lista de reproduccion desde el final " <<std::endl;
     std::cout << "9. Vaciar la lista de reproduccion " <<std::endl;
-    std::cout << "10. Guardar y volver al menu principal " <<std::endl;
+    std::cout << "10. Cambiar el orden de la playlist  " <<std::endl;
+    std::cout << "11. Guardar y volver al menu principal " <<std::endl;
     std::cout << "Ingrese una opcion: ";
 
 }
@@ -76,7 +77,7 @@ void addSong(PlayList* playlist, SongNode* song, int index) {
         current = current->next;
         jumps++;
     }
-   current->previous->next = song;
+    current->previous->next = song;
     song->previous = current->previous;
     song->next = current;
     current->previous = song;
@@ -214,10 +215,97 @@ bool isPlayListEmpty(PlayList* playlist) {
     return playlist->head == nullptr;
 }
 
+void emptyPlaylist(PlayList* playlist) {
+    if (isPlayListEmpty(playlist)) {
+        return;
+    }
+    SongNode* aux;
+    SongNode* song = playlist->head;
+    for (int i = 0; i < playlist->length; i++) {
+        aux = song;
+        song = song->next;
+        delete aux;
+    }
+    playlist->head = nullptr;
+    playlist->tail = nullptr;
+}
+
+void changePlaylistOrder(PlayList* playlist, int index, int index2) {
+    if (isPlayListEmpty(playlist)) {
+        return;
+    }
+    if (playlist->length == 1) {
+        return;
+    }
+
+    /*FIRST STEP, SIMULATE DELETION*/
+
+    SongNode *temp = nullptr;
+    int jumps = 0;
+    /*CHANGE THE TAIL*/
+    if (index >= playlist->length) {
+        temp = playlist->tail;
+        playlist->tail->previous->next = playlist->head;
+        playlist->tail = playlist->tail->previous;
+        playlist->head->previous = playlist->tail;
+        /*CHANGE THE HEAD*/
+    }else if (index <= 1) {
+        temp = playlist->head;
+        playlist->head->next->previous = playlist->tail;
+        playlist->head = playlist->head->next;
+        playlist->tail->next = playlist->head;
+    }else {
+        /*CHANGE A SPECIFIC NODE*/
+        SongNode *current = playlist->head;
+        while (jumps < index - 1) {
+            current = current->next;
+            jumps++;
+        }
+        temp = current;
+        current->previous->next = current->next;
+        current->next->previous = current->previous;
+        jumps = 0;
+    }
+
+    // SECOND STEP, ADD THE NODE INTO THE NEW POSITION
+
+    /*ADITTION TO A SONG AT THE END OF THE PLAYLIST*/
+    if (index2 > playlist->length) {
+        playlist->tail->next = temp;
+        temp->previous = playlist->tail;
+        temp->next = playlist->head;
+        playlist->head->previous = temp;
+        playlist->tail = temp;
+        return;
+    }
+    /*ADITION TO THE BEGINNING OF THE PLAYLIST*/
+    if (index2 <= 1) {
+        temp->next = playlist->head;
+        playlist->head->previous = temp;
+        temp->previous = playlist->tail;
+        playlist->tail->next = temp;
+        playlist->head = temp;
+        return;
+    }
+    /*ADDITION IN A SPECIFIC POSITION*/
+    SongNode* current = playlist->head;
+    while (jumps < index2 - 1) {
+        current = current->next;
+        jumps++;
+    }
+    current->previous->next = temp;
+    temp->previous = current->previous;
+    temp->next = current;
+    current->previous = temp;
+}
+
+
 void runMusicApp(PlayList *playlist) {
     int option = -1 ;
     int index;
-    while (option < 0 || option > 10) {
+    int index2;
+    char confirmation;
+    while (option < 0 || option > 11) {
         musicAppMenu();
         std::cin >> option;
         switch (option) {
@@ -240,7 +328,7 @@ void runMusicApp(PlayList *playlist) {
             }
 
             case 2: {
-                char confirmation;
+
                 if (isPlayListEmpty(playlist)) {
                     std::cout << "LA PLAYLIST ESTA VACIA" << std::endl;
 
@@ -340,16 +428,44 @@ void runMusicApp(PlayList *playlist) {
 
                 }else {
                     std::cout << "INICIANDO RADIO DESDE EL FINAL: " <<std::endl;
-                    playFromBeggining(playlist);
+                    playFromEnd(playlist);
                 }
 
                 option = -1;
                 break;
             case 9:
-                std::cout << "STILL BEING DEVELOPED: " <<std::endl;
+                std::cin.ignore();
+                std::cout << "Se eliminaran a todas las canciones de las playlist, desea continuar? [Y/n]" << std::endl;
+                std::cin >> confirmation;
+                confirmation = toupper(confirmation);
+                if(confirmation != 'N'){
+                    emptyPlaylist(playlist);
+                    std::cout << "La playlist ha sido vaciada correctamente: " << std::endl;
+                }else{
+                    std::cout << "Operacion cancelada" << std::endl;
+                }
+                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                std::cin.ignore() ; std::cin.get();
                 option = -1;
                 break;
             case 10:
+                if (isPlayListEmpty(playlist)) {
+                    std::cout << "LA PLAYLIST ESTA VACIA" << std::endl;
+                }else if (playlist->length == 1) {
+                    std::cout << "SOLO EXISTE UNA CANCION EN LA PLAYLIST, NO SE PUEDE MOVER NADA" <<std::endl;
+                }else {
+                    std:: cout << "Ingrese la posicion de la cancion a cambiar (negativos o 1 se escojera el inicio, un numero muy grande escojera el final):";
+                    std::cin >> index;
+                    std:: cout << "Ingrese la nueva posicion de la cancion (negativos o 1 se insertara al inicio, un numero muy grande insertara al final):";
+                    std::cin >> index2;
+                    changePlaylistOrder(playlist, index, index2);
+                    std::cout << "PLAYLIST ACTUALIZADA, PUEDES VERLA CON LA OPCION 3" <<std::endl;
+                }
+                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                std::cin.ignore() ; std::cin.get();
+                option = -1;
+                break;
+            case 11:
                 std::cout << "Hasta pronto: " <<std::endl;
                 break;
             default:

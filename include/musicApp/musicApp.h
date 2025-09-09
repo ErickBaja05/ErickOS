@@ -53,6 +53,8 @@ void playFromBeggining(PlayList* playlist) ;
 void playFromEnd(PlayList* playlist);
 void showPlaylist(PlayList* playlist) ;
 SongNode* goToSong(PlayList* playlist, int index);
+void emptyPlaylist(PlayList* playlist);
+void changePlaylistOrder(PlayList* playlist, int index, int index2);
 
 
 #endif
