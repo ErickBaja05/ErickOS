@@ -7,14 +7,15 @@
 #include "bankSimulatorApp/bankSimulatorApp.h"
 #include "musicApp/musicApp.h"
 
-void run(TaskList * list,NoteStack *stack , ClientQueue * queue);
+void run(TaskList * list, NoteStack * stack, ClientQueue* queue, PlayList * playlist);
 void mainMenu();
 
 int main(){
     TaskList * toDoList = new TaskList();
     NoteStack * notesStack = new NoteStack();
     ClientQueue * clientQueue = new ClientQueue();
-    run(toDoList,notesStack, clientQueue);
+    PlayList * playlist = new PlayList();
+    run(toDoList,notesStack, clientQueue,playlist);
 }
 
 void mainMenu(){
@@ -65,6 +66,7 @@ void run(TaskList * list, NoteStack * stack, ClientQueue* queue, PlayList * play
                 delete list;
                 delete stack;
                 delete queue;
+                delete playlist;
                 break;
             default:
                 std::cout << "Opcion invalida." << std::endl;

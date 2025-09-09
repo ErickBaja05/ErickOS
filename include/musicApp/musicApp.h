@@ -14,7 +14,7 @@
 struct SongNode {
     std::string title;
     std::string artist;
-    int durationMinutes;
+    int durationSeconds;
     SongNode* previous;
     SongNode* next;
 
@@ -46,6 +46,13 @@ void runMusicApp(PlayList *playlist);
 bool isPlayListEmpty(PlayList* playlist);
 SongNode* buildSong();
 void addSong(PlayList* playlist, SongNode* song, int index);
+std::string getDuration(int segsDuration);
+void deleteSong(PlayList* playlist, int index);
+void showSong(SongNode *song);
+void playFromBeggining(PlayList* playlist) ;
+void playFromEnd(PlayList* playlist);
+void showPlaylist(PlayList* playlist) ;
+SongNode* goToSong(PlayList* playlist, int index);
 
 
 #endif
