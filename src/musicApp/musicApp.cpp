@@ -228,6 +228,7 @@ void emptyPlaylist(PlayList* playlist) {
     }
     playlist->head = nullptr;
     playlist->tail = nullptr;
+    playlist->length = 0;
 }
 
 void changePlaylistOrder(PlayList* playlist, int index, int index2) {
@@ -300,7 +301,69 @@ void changePlaylistOrder(PlayList* playlist, int index, int index2) {
 }
 
 
+
+int savePlaylist(PlayList* playlist){
+
+    std::ofstream file("data/musicApp/playlist.txt");
+    if(!file){
+         return 1;
+    }
+
+    if(isPlayListEmpty(playlist)){
+        return 2;
+    }
+
+    int control = 1;
+
+    SongNode *current = playlist->head;
+    for (int i = 0; i < playlist->length; i++) {
+        file << control << std::endl;
+        file << current->title << std::endl;
+        file << current->artist << std::endl;
+        file << current->durationSeconds << std::endl;
+        current = current->next;
+    }
+
+    file << -1;
+    file.close();
+    return 0;
+
+}
+
+int loadPlayList(PlayList* playlist) {
+    std::string title;
+    std::string artist;
+    int durationSeconds;
+    int control;
+    std::ifstream file("data/musicApp/playlist.txt");
+    if(!file) {
+        return 1;
+    }
+    file.peek();
+    if (file.eof()) {
+        return 2;
+    }
+    file >> control;
+    while (control != -1) {
+        file.get();
+        SongNode *song = new SongNode();
+        std::getline(file , title);
+        song->title = title;
+        std::getline(file, artist);
+        song->artist = artist;
+        file >> durationSeconds;
+        song->durationSeconds = durationSeconds;
+        addSong(playlist,song,88);
+        file >> control;
+    }
+
+    file.close();
+    return 0;
+
+}
+
 void runMusicApp(PlayList *playlist) {
+    if (loadPlayList(playlist) == 1){ std::cout << "Error al momento de acceder a los datos guardados" <<std::endl;};
     int option = -1 ;
     int index;
     int index2;
@@ -466,7 +529,18 @@ void runMusicApp(PlayList *playlist) {
                 option = -1;
                 break;
             case 11:
-                std::cout << "Hasta pronto: " <<std::endl;
+                if (isPlayListEmpty(playlist)) {
+                    std::cout << "LA PLAYLIST ESTA VACIA, NO SE GUARDA NADA" << std::endl;
+                }else if (savePlaylist(playlist) == 1) {
+                    std::cout << "Error al abrir el archivo para guardar la playlist" << std::endl;
+                }else {
+                    std::cout << "Guardando playlist en el archivo playlist.txt..." <<std::endl;
+                    std::cout << "CANCIONES GUARDADAS" << std::endl;
+                    std::cout << "Hasta pronto" << std::endl;
+                    emptyPlaylist(playlist);
+                }
+                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR..." <<std::endl;
+                std::cin.ignore(); std::cin.get();
                 break;
             default:
                 std::cout << "Opcion invalida" <<std::endl;
