@@ -135,7 +135,7 @@ std::string getDuration(int segsDuration) {
     int seconds = segsDuration % 60;
     return std::to_string(minutes) + ":" + std::to_string(seconds);
 }
-void playFromBeggining(PlayList* playlist) {
+void playFromBeginning(PlayList* playlist) {
     if (isPlayListEmpty(playlist)) {
         return;
     }
@@ -227,9 +227,7 @@ void changePlaylistOrder(PlayList* playlist, int index, int index2) {
     }
 
     /*FIRST STEP, SIMULATE DELETION*/
-
     SongNode *nodeMoving = nullptr;
-    int jumps = 0;
     /*CHANGE THE TAIL*/
     if (index >= playlist->length) {
         nodeMoving = playlist->tail;
@@ -247,35 +245,10 @@ void changePlaylistOrder(PlayList* playlist, int index, int index2) {
         nodeMoving = goToSong(playlist, index);
         nodeMoving->previous->next = nodeMoving->next;
         nodeMoving->next->previous = nodeMoving->previous;
-        jumps = 0;
     }
 
     // SECOND STEP, ADD THE NODE INTO THE NEW POSITION
-
-    /*ADITTION TO A SONG AT THE END OF THE PLAYLIST*/
-    if (index2 > playlist->length) {
-        playlist->tail->next = nodeMoving;
-        nodeMoving->previous = playlist->tail;
-        nodeMoving->next = playlist->head;
-        playlist->head->previous = nodeMoving;
-        playlist->tail = nodeMoving;
-        return;
-    }
-    /*ADITION TO THE BEGINNING OF THE PLAYLIST*/
-    if (index2 <= 1) {
-        nodeMoving->next = playlist->head;
-        playlist->head->previous = nodeMoving;
-        nodeMoving->previous = playlist->tail;
-        playlist->tail->next = nodeMoving;
-        playlist->head = nodeMoving;
-        return;
-    }
-    /*ADDITION IN A SPECIFIC POSITION*/
-    SongNode* reference = goToSong(playlist, index2);
-    reference->previous->next = nodeMoving;
-    nodeMoving->previous = reference->previous;
-    reference->previous = nodeMoving;
-    nodeMoving->next = reference;
+    addSong(playlist,nodeMoving, index2);
 }
 
 
@@ -299,6 +272,7 @@ int savePlaylist(PlayList* playlist){
         file << current->artist << std::endl;
         file << current->durationSeconds << std::endl;
         current = current->next;
+
     }
 
     file << -1;
@@ -457,7 +431,7 @@ void runMusicApp(PlayList *playlist) {
                     std::cout << "LA PLAYLIST ESTA VACIA" << std::endl;
 
                 }else{ std::cout << "INICIANDO RADIO DESDE EL INICIO: " <<std::endl;
-                    playFromBeggining(playlist);}
+                    playFromBeginning(playlist);}
 
 
                 option = -1;
