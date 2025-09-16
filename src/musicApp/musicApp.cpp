@@ -71,19 +71,14 @@ void addSong(PlayList* playlist, SongNode* song, int index) {
     }
 
     /*ADDITION IN A SPECIFIC POSITION*/
-    int jumps = 0;
-    SongNode *current = playlist->head;
-    while (jumps < index - 1) {
-        current = current->next;
-        jumps++;
-    }
-    current->previous->next = song;
-    song->previous = current->previous;
-    song->next = current;
-    current->previous = song;
+
+    SongNode* songIndex = goToSong(playlist, index);
+    songIndex->previous->next = song;
+    song->next = songIndex;
+    song->previous = songIndex->previous;
+    songIndex->previous = song;
     playlist->length++;
     playlist->current = 1;
-
 }
 
 void deleteSong(PlayList* playlist, int index) {
@@ -121,19 +116,11 @@ void deleteSong(PlayList* playlist, int index) {
     }
 
     /*DELETE A NODE IN AN SPECIFIC POSITION*/
-    int jumps = 0;
-    SongNode *current = playlist->head;
-    while (jumps < index - 1) {
-
-        current = current->next;
-        jumps++;
-    }
-    current->previous->next = current->next;
-    current->next->previous = current->previous;
+    SongNode* songIndex = goToSong(playlist, index);
+    songIndex->previous->next = songIndex->next;
+    songIndex->next->previous = songIndex->previous;
     playlist->length--;
-    delete current;
-
-
+    delete songIndex;
 }
 
 void showSong(SongNode *song) {
@@ -241,30 +228,25 @@ void changePlaylistOrder(PlayList* playlist, int index, int index2) {
 
     /*FIRST STEP, SIMULATE DELETION*/
 
-    SongNode *temp = nullptr;
+    SongNode *nodeMoving = nullptr;
     int jumps = 0;
     /*CHANGE THE TAIL*/
     if (index >= playlist->length) {
-        temp = playlist->tail;
+        nodeMoving = playlist->tail;
         playlist->tail->previous->next = playlist->head;
         playlist->tail = playlist->tail->previous;
         playlist->head->previous = playlist->tail;
         /*CHANGE THE HEAD*/
     }else if (index <= 1) {
-        temp = playlist->head;
+        nodeMoving = playlist->head;
         playlist->head->next->previous = playlist->tail;
         playlist->head = playlist->head->next;
         playlist->tail->next = playlist->head;
     }else {
         /*CHANGE A SPECIFIC NODE*/
-        SongNode *current = playlist->head;
-        while (jumps < index - 1) {
-            current = current->next;
-            jumps++;
-        }
-        temp = current;
-        current->previous->next = current->next;
-        current->next->previous = current->previous;
+        nodeMoving = goToSong(playlist, index);
+        nodeMoving->previous->next = nodeMoving->next;
+        nodeMoving->next->previous = nodeMoving->previous;
         jumps = 0;
     }
 
@@ -272,34 +254,29 @@ void changePlaylistOrder(PlayList* playlist, int index, int index2) {
 
     /*ADITTION TO A SONG AT THE END OF THE PLAYLIST*/
     if (index2 > playlist->length) {
-        playlist->tail->next = temp;
-        temp->previous = playlist->tail;
-        temp->next = playlist->head;
-        playlist->head->previous = temp;
-        playlist->tail = temp;
+        playlist->tail->next = nodeMoving;
+        nodeMoving->previous = playlist->tail;
+        nodeMoving->next = playlist->head;
+        playlist->head->previous = nodeMoving;
+        playlist->tail = nodeMoving;
         return;
     }
     /*ADITION TO THE BEGINNING OF THE PLAYLIST*/
     if (index2 <= 1) {
-        temp->next = playlist->head;
-        playlist->head->previous = temp;
-        temp->previous = playlist->tail;
-        playlist->tail->next = temp;
-        playlist->head = temp;
+        nodeMoving->next = playlist->head;
+        playlist->head->previous = nodeMoving;
+        nodeMoving->previous = playlist->tail;
+        playlist->tail->next = nodeMoving;
+        playlist->head = nodeMoving;
         return;
     }
     /*ADDITION IN A SPECIFIC POSITION*/
-    SongNode* current = playlist->head;
-    while (jumps < index2 - 1) {
-        current = current->next;
-        jumps++;
-    }
-    current->previous->next = temp;
-    temp->previous = current->previous;
-    temp->next = current;
-    current->previous = temp;
+    SongNode* reference = goToSong(playlist, index2);
+    reference->previous->next = nodeMoving;
+    nodeMoving->previous = reference->previous;
+    reference->previous = nodeMoving;
+    nodeMoving->next = reference;
 }
-
 
 
 int savePlaylist(PlayList* playlist){
