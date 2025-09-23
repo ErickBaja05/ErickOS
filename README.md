@@ -13,7 +13,7 @@ Each mini-project within ErickOS demonstrates practical applications of data str
   - [To-Do List](#to-do-list)
   - [Notes App](#notesapp)
   - [Bank Simulator App](#bank-simulator-app)
-  - [Music Playlist Simulator](#music-playist-simulator)
+  - [Music Playlist Simulator](#music-playlist-simulator)
 - [Getting Started](#getting-started)
   - [Steps to build and run](#steps-to-build-and-run)   
 - [How to Use](#how-to-use)  
