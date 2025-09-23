@@ -12,7 +12,8 @@ Each mini-project within ErickOS demonstrates practical applications of data str
 - [Mini Projects](#mini-projects)  
   - [To-Do List](#to-do-list)
   - [Notes App](#notesapp)
-  - [Bank Simulator App](#banksimulatorapp)
+  - [Bank Simulator App](#bank-simulator-app)
+  - [Music Playlist Simulator](#music-playist-simulator)
 - [Getting Started](#getting-started)
   - [Steps to build and run](#steps-to-build-and-run)   
 - [How to Use](#how-to-use)  
@@ -42,7 +43,7 @@ The To-Do List is the first mini-project implemented in ErickOS. It allows users
 - Tasks are automatically assigned unique incremental IDs.  
 - Only pending tasks are saved, completed tasks are excluded from the file.  
 
-This mini-project demonstrates practical usage of pointers, dynamic memory management, string manipulation, file I/O, and modular programming techniques in C++.
+This mini-project demonstrates practical usage of pointers, dynamic memory management, string manipulation, and file I/O.
 
 ### NotesApp
 
@@ -58,9 +59,9 @@ The NotesApp is the second mini-project implemented in ErickOS. It allows users 
 
 This mini-project demonstrates practical usage of pointers and LIFO structures, dynamic memory management, string manipulation, file I/O, and modular programming techniques in C++.
 
-### BankSimulatorApp
+### Bank Simulator App
 
-The BankSimulatoApp is the third mini-project implemented in ErickOS. It allows users to simulate a bank operation. It uses a queue (FIFO) data structure.
+The Bank Simulator App is the third mini-project implemented in ErickOS. It allows users to simulate a bank operation. It uses a queue (FIFO) data structure.
 
 - Enqueue clients with timestamp of arrival time.  
 - Dequeue a client
@@ -69,7 +70,19 @@ The BankSimulatoApp is the third mini-project implemented in ErickOS. It allows 
 - Save and load clients from a text file to persist data between sessions and maintaining the original queue.
 - Clients are automatically assigned unique incremental IDs.  
 
-This mini-project demonstrates practical usage of pointers and FIFO structures, dynamic memory management, file I/O, and modular programming techniques in C++.
+This mini-project demonstrates practical usage of pointers and FIFO structures, dynamic memory management, and file I/O.
+
+### Music Playlist Simulator
+
+The BankSimulatoApp is the third forth-project implemented in ErickOS. It allows users to simulate a playlist. It uses a double circular Linked List data structure.
+
+- Add a Song in any position.  
+- Delete a song from any position.
+- Reorganize the positions of the nodes.
+- Empty the entire structure.
+- Save and load the playlist from a text file to persist data between sessions.
+
+This mini-project demonstrates practical usage of pointers and Circular Linked List  structures, dynamic memory management, and file I/O.
 
 
 ---
