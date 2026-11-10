@@ -5,80 +5,89 @@
 #include "toDo/toDo.h"
 #include "utils/utils.h"
 
-
 int N_TASK = 1;
 
-
-void menuToDo(){
-    std::cout << "*****LISTA DE TAREAS PENDIENTES *********" <<std::endl;
-    std::cout << "1. Agregar una tarea a la lista" <<std::endl;
-    std:: cout <<"2. Eliminar una tarea por ID" <<std::endl;
-    std::cout << "3. Buscar tareas con palabra clave" <<std::endl;
-    std::cout << "4. Marcar tarea como completada" <<std::endl;
-    std::cout << "5. Mostrar todas las tareas" <<std::endl; 
-    std::cout << "6. Vaciar la lista" <<std::endl;
-    std::cout << "7. Guardar y volver al menu principal" <<std::endl;
-    std::cout << "Ingrese una opcion: ";
-
+void menuToDo()
+{
+    std::cout << "*****LISTA DE TAREAS PENDIENTES *********" << std::endl;
+    std::cout << "1. Agregar una tarea a la lista" << std::endl;
+    std::cout << "2. Eliminar una tarea por ID" << std::endl;
+    std::cout << "3. Buscar tareas con palabra clave" << std::endl;
+    std::cout << "4. Marcar tarea como completada" << std::endl;
+    std::cout << "5. Mostrar todas las tareas" << std::endl;
+    std::cout << "6. Vaciar la lista" << std::endl;
+    std::cout << "7. Guardar y volver al menu principal" << std::endl;
+    std::cout << "Ingrese una opcion para ejecutar: ";
 }
 
-TaskNode* buildTask() {
+TaskNode *buildTask()
+{
     // CREATION OF THE NODE TO BE ADDED , DATE IS STORED JUST AFTER THAT MOMENT
-    TaskNode* task = new TaskNode();
+    TaskNode *task = new TaskNode();
     task->id = N_TASK++;
     task->dateCreated = getTimeCustom();
     task->next = nullptr;
     std::cout << "Ingrese la descripcion de la tarea: ";
     std::cin.get();
-    getline(std::cin,task->description);
+    getline(std::cin, task->description);
     return task;
-
 }
 
-void addTask(TaskList * list, TaskNode* task){
+void addTask(TaskList *list, TaskNode *task)
+{
     // FIRST ELEMENT ADDED
-    if(isListEmpty(list)){
+    if (isListEmpty(list))
+    {
         list->head = task;
-    }else{
-         // ITERATE IN ALL THE LINKED LIST UNTIL FIND AND SPACE.
-        TaskNode* current = list->head;
-        while(current->next != nullptr){
-        current = current->next;
     }
+    else
+    {
+        // ITERATE IN ALL THE LINKED LIST UNTIL FIND AND SPACE.
+        TaskNode *current = list->head;
+        while (current->next != nullptr)
+        {
+            current = current->next;
+        }
 
-    current->next = task;
+        current->next = task;
     }
-
 }
 
-bool isListEmpty(TaskList * list) {
+bool isListEmpty(TaskList *list)
+{
     return list->head == nullptr;
 }
 
-TaskNode* lookTaskId(const TaskList * list, const int id) {
-    TaskNode* current = list->head;
-    while (current != nullptr) {
-        if(current->id == id) {
+TaskNode *lookTaskId(const TaskList *list, const int id)
+{
+    TaskNode *current = list->head;
+    while (current != nullptr)
+    {
+        if (current->id == id)
+        {
             return current;
         }
         current = current->next;
     }
     return nullptr;
-
 }
 
-void deleteTask(TaskList * list, TaskNode* task) {
-    if (task == nullptr) {
+void deleteTask(TaskList *list, TaskNode *task)
+{
+    if (task == nullptr)
+    {
         return;
     }
-    if (task == list->head) {
+    if (task == list->head)
+    {
         list->head = task->next;
         delete task;
         return;
     }
-    TaskNode* current = list->head;
-    TaskNode* previous = nullptr;
-    while (current != task) {
+    TaskNode *current = list->head;
+    TaskNode *previous = nullptr;
+    while (current != task)
+    {
         previous = current;
         current = current->next;
     }
@@ -86,16 +95,19 @@ void deleteTask(TaskList * list, TaskNode* task) {
     delete current;
 }
 
-TaskList* lookForTasks(const TaskList *list , const std::string &keyword) {
-    TaskList* auxiliarList = new TaskList();
-    TaskNode* current = list->head;
+TaskList *lookForTasks(const TaskList *list, const std::string &keyword)
+{
+    TaskList *auxiliarList = new TaskList();
+    TaskNode *current = list->head;
     std::string keywordUpper = keyword;
     std::transform(keywordUpper.begin(), keywordUpper.end(), keywordUpper.begin(), ::toupper);
-    while(current!= nullptr){
+    while (current != nullptr)
+    {
         std::string descUpper = current->description;
         std::transform(descUpper.begin(), descUpper.end(), descUpper.begin(), ::toupper);
-        if(descUpper.find(keywordUpper) != std::string::npos){
-            TaskNode* task = new TaskNode();
+        if (descUpper.find(keywordUpper) != std::string::npos)
+        {
+            TaskNode *task = new TaskNode();
             task->id = current->id;
             task->dateCreated = current->dateCreated;
             task->description = current->description;
@@ -106,90 +118,100 @@ TaskList* lookForTasks(const TaskList *list , const std::string &keyword) {
     return auxiliarList;
 }
 
-void completeTask(TaskNode* task){
+void completeTask(TaskNode *task)
+{
     task->status = true;
-
 }
 
-void showTask(const TaskNode* task) {
-    if(task->status){
-        std::cout << "ESTADO: COMPLETADA!!!" <<std::endl;
-    }else{
-        std::cout << "ESTADO: PENDIENTE****" <<std::endl;
+void showTask(const TaskNode *task)
+{
+    if (task->status)
+    {
+        std::cout << "ESTADO: COMPLETADA!!!" << std::endl;
     }
-    std::cout << "ID DE TAREA: " << task->id <<std::endl;
+    else
+    {
+        std::cout << "ESTADO: PENDIENTE****" << std::endl;
+    }
+    std::cout << "ID DE TAREA: " << task->id << std::endl;
     std::cout << "DESCRIPCION: " << task->description << std::endl;
-    std::cout << "AGREGADA EL: "  << task ->dateCreated <<std::endl;
+    std::cout << "AGREGADA EL: " << task->dateCreated << std::endl;
     std::cout << "------------------------------------" << std::endl;
 }
 
-void showTasks(TaskList *list){
-    if(isListEmpty(list)){
+void showTasks(TaskList *list)
+{
+    if (isListEmpty(list))
+    {
         return;
     }
     TaskNode *aux = list->head;
-    while(aux != nullptr){
+    while (aux != nullptr)
+    {
         showTask(aux);
         aux = aux->next;
     }
-
-    
 }
 
-void emptyList(TaskList *list){
-    if (isListEmpty(list)){return;}
-    TaskNode * current = list->head;
-    while(current != nullptr){
+void emptyList(TaskList *list)
+{
+    if (isListEmpty(list))
+    {
+        return;
+    }
+    TaskNode *current = list->head;
+    while (current != nullptr)
+    {
         TaskNode *temp = current;
         current = current->next;
         delete temp;
-         
-
     }
     list->head = nullptr;
-   
-
 }
 
-int saveTasks(TaskList *list){
+int saveTasks(TaskList *list)
+{
     int result = 0;
     std::ofstream file("data/toDo/taskTodo.txt");
-    if(!file){
-         result = 1;
+    if (!file)
+    {
+        result = 1;
     }
 
-    if(isListEmpty(list)){
+    if (isListEmpty(list))
+    {
         result = 2;
     }
 
     TaskNode *current = list->head;
-    while(current != nullptr){
-        if(!current->status){
-             file<< current->id <<std::endl;
-             file<< current->description << std::endl;
-             file<< current ->dateCreated <<std::endl;
-        
+    while (current != nullptr)
+    {
+        if (!current->status)
+        {
+            file << current->id << std::endl;
+            file << current->description << std::endl;
+            file << current->dateCreated << std::endl;
         }
-
 
         current = current->next;
     }
     file << -1;
     file.close();
     return result;
-
-
 }
 
-int loadTasks(TaskList *list){
+int loadTasks(TaskList *list)
+{
 
     std::ifstream file("data/toDo/taskTodo.txt");
-     // Verificar si el archivo está vacío
-    file.peek(); 
-    if (file.eof()) {
+    // Verificar si el archivo está vacío
+    file.peek();
+    if (file.eof())
+    {
         return 1;
     }
-    if(!file){
+    if (!file)
+    {
         return 2;
     }
     int id;
@@ -197,14 +219,16 @@ int loadTasks(TaskList *list){
     std::string description;
     std::string creationDate;
     file >> id;
-    while(id != -1){
-        TaskNode* newNode = new TaskNode();
+    while (id != -1)
+    {
+        TaskNode *newNode = new TaskNode();
         newNode->id = id;
-        if(id > maxId) maxId = id;
+        if (id > maxId)
+            maxId = id;
         file.get();
-        std::getline(file,description);
+        std::getline(file, description);
         newNode->description = description;
-        std::getline(file,creationDate);
+        std::getline(file, creationDate);
         newNode->dateCreated = creationDate;
         addTask(list, newNode);
         file >> id;
@@ -212,153 +236,194 @@ int loadTasks(TaskList *list){
     N_TASK = ++maxId;
     file.close();
     return 0;
-
 }
 
-void runToDo(TaskList *list){
+void runToDo(TaskList *list)
+{
     int load = loadTasks(list);
-    if (load == 2){ std::cout << "Error al momento de acceder a los datos guardados" <<std::endl;};
+    if (load == 2)
+    {
+        std::cout << "Error al momento de acceder a los datos guardados" << std::endl;
+    };
     int option = -1;
     std::string description;
     int id;
     char confirmation;
 
-    while (option < 0 || option > 7){
-        
+    while (option < 0 || option > 7)
+    {
+
         menuToDo();
         std::cin >> option;
-        if(option < 0 || option > 7){
+        if (option < 0 || option > 7)
+        {
             std::cout << "OPCION INVALIDA, INTENTE OTRA VEZ" << std::endl;
             std::cin.ignore();
             continue;
         }
 
-        switch (option) {
-            case 1: {
-                TaskNode* task = buildTask();
-                addTask(list, task);
-                std::cout << "Tarea añadida con exito!!" <<std::endl;
-                std::cout << "Lista de tareas en la lista: " << std::endl;
-                showTasks(list);
-                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...."<< std::endl;
-                std::cin.get();
-                option = -1;
-                break;
+        switch (option)
+        {
+        case 1:
+        {
+            TaskNode *task = buildTask();
+            addTask(list, task);
+            std::cout << "Tarea añadida con exito!!" << std::endl;
+            std::cout << "Lista de tareas en la lista: " << std::endl;
+            showTasks(list);
+            std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
+            std::cin.get();
+            option = -1;
+            break;
+        }
+
+        case 2:
+        {
+            if (isListEmpty(list))
+            {
+                std::cout << "LA LISTA ESTA VACIA" << std::endl;
             }
-
-            case 2: {
-                if (isListEmpty(list)) {
-                    std::cout << "LA LISTA ESTA VACIA" <<std::endl;
-                }else {
-                    std::cout << "Ingrese el id de la tarea a eliminar (puede ver todas las tareas en la opcion 5)" <<std::endl;
-                    std::cin >> id;
-                    TaskNode* task = lookTaskId(list,id);
-                    if(task != nullptr) {
-                        showTask(task);
-                        std::cout << "¿Desea eliminar esta tarea? [Y/n]: ";
-                        std::cin >> confirmation;
-                        confirmation = toupper(confirmation);
-                        if(confirmation != 'n') {
-                            deleteTask(list, task);
-                            std::cout << "TAREA ELIMINADA CON EXITO" << std::endl;
-
-                        }else {
-                            std::cout << "Eliminación cancelada" <<std::endl;
-                        }
-                    }else {
-                        std::cout << "LA TAREA CON ESE ID NO EXISTE" << std::endl;
-
+            else
+            {
+                std::cout << "Ingrese el id de la tarea a eliminar (puede ver todas las tareas en la opcion 5)" << std::endl;
+                std::cin >> id;
+                TaskNode *task = lookTaskId(list, id);
+                if (task != nullptr)
+                {
+                    showTask(task);
+                    std::cout << "¿Desea eliminar esta tarea? [Y/n]: ";
+                    std::cin >> confirmation;
+                    confirmation = toupper(confirmation);
+                    if (confirmation != 'n')
+                    {
+                        deleteTask(list, task);
+                        std::cout << "TAREA ELIMINADA CON EXITO" << std::endl;
+                    }
+                    else
+                    {
+                        std::cout << "Eliminación cancelada" << std::endl;
                     }
                 }
-                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
-                std::cin.ignore() ;std::cin.get();
-
-
-                option = -1;
-                break;
-            }
-
-            case 3: {
-                std::cout << "Ingrese la descripcion de la tarea o una palabra clave para recuperar varias:" <<std::endl;
-                std::cin.ignore();
-                std::getline(std::cin,description);
-                TaskList* auxiliarList = lookForTasks(list,description);
-                if (!isListEmpty(auxiliarList)) {
-                    std::cout << "TAREAS QUE CONTIENEN: \" " << description << "\":" << std::endl;
-                    showTasks(auxiliarList);
-                    emptyList(auxiliarList);
-                }else {
-                    std::cout << "NO HAY TAREAS QUE CONTENGAN LA PALABRA CLAVE: \"" <<description <<"\"" << std::endl;
-                }
-                option = -1;
-                delete auxiliarList;
-                break;
-            }
-
-            case 4: {
-                std::cout << "Ingrese el ID de la tarea que ha finalizado: (puede ver todas las tareas en la opcion 5) " << std::endl;
-                std::cin >> id;
-                TaskNode* task = lookTaskId(list,id);
-                if (task != nullptr) {
-                    completeTask(task);
-                    std::cout << "TAREA MARCADA COMO COMPLETADA" << std::endl;
-                }else {
+                else
+                {
                     std::cout << "LA TAREA CON ESE ID NO EXISTE" << std::endl;
                 }
-                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
-                std::cin.ignore() ; std::cin.get();
-                option = -1;
-                break;
             }
+            std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
+            std::cin.ignore();
+            std::cin.get();
 
-            case 5:
-                if (isListEmpty(list)) {
-                    std::cout << "LA LISTA ESTA VACIA  " << std::endl;
-                }else {
-                    showTasks(list);
-                }
-                std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
-                std::cin.ignore();std::cin.get();
-                option = -1;
-                break;
-            case 6:
-                std::cin.ignore();
-                std::cout << "Se eliminaran todas las tareas de la lista , seguro quiere continuar? [Y/n]" << std::endl;
-                std::cin >> confirmation;
-                confirmation = toupper(confirmation);
-                if(confirmation != 'N'){
-                    emptyList(list);
-                    std::cout << "La lista se ha vaciado correctamente" << std::endl;
-                }else{
-                    std::cout << "Operacion cancelada" << std::endl;
-                    std::cin.ignore() ; std::cin.get();
-                }
-                std::cout << "Presione una tecla para continuar" << std::endl;
-                std::cin.ignore() ; std::cin.get();
-                option = -1;
-                break;
-            case 7:{
+            option = -1;
+            break;
+        }
 
-                std::cout << "Las tareas pendientes se guardaran en el archivo \"taskToDo.txt\", las tareas completadas se eliminaran." <<std::endl;
-                std::cout << "Guardando tareas...." << std::endl;
-                if (isListEmpty(list)) {
-                    std::cout << " LA LISTA ESTA VACIA, NO SE GUARDA NADA " << std::endl;
-                }else {
-                    int save = saveTasks(list);
-                    if (save == 1) {
-                        std::cout << "Error al abrir el archivo para guardar los datos" << std::endl;
-                    }else {
-                        std::cout << "TAREAS AGREGADAS CON EXITO " << std::endl;
-                        std::cout << "La proxima vez que inicies el programa , en la opcion 5 podras ver las tareas que te faltan por completar, hasta pronto" << std::endl;
-                    }
-                }
+        case 3:
+        {
+            std::cout << "Ingrese la descripcion de la tarea o una palabra clave para recuperar varias:" << std::endl;
+            std::cin.ignore();
+            std::getline(std::cin, description);
+            TaskList *auxiliarList = lookForTasks(list, description);
+            if (!isListEmpty(auxiliarList))
+            {
+                std::cout << "TAREAS QUE CONTIENEN: \" " << description << "\":" << std::endl;
+                showTasks(auxiliarList);
+                emptyList(auxiliarList);
+            }
+            else
+            {
+                std::cout << "NO HAY TAREAS QUE CONTENGAN LA PALABRA CLAVE: \"" << description << "\"" << std::endl;
+            }
+            option = -1;
+            delete auxiliarList;
+            break;
+        }
+
+        case 4:
+        {
+            std::cout << "Ingrese el ID de la tarea que ha finalizado: (puede ver todas las tareas en la opcion 5) " << std::endl;
+            std::cin >> id;
+            TaskNode *task = lookTaskId(list, id);
+            if (task != nullptr)
+            {
+                completeTask(task);
+                std::cout << "TAREA MARCADA COMO COMPLETADA" << std::endl;
+            }
+            else
+            {
+                std::cout << "LA TAREA CON ESE ID NO EXISTE" << std::endl;
+            }
+            std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
+            std::cin.ignore();
+            std::cin.get();
+            option = -1;
+            break;
+        }
+
+        case 5:
+            if (isListEmpty(list))
+            {
+                std::cout << "LA LISTA ESTA VACIA  " << std::endl;
+            }
+            else
+            {
+                showTasks(list);
+            }
+            std::cout << "PRESIONE UNA TECLA PARA CONTINUAR...." << std::endl;
+            std::cin.ignore();
+            std::cin.get();
+            option = -1;
+            break;
+        case 6:
+            std::cin.ignore();
+            std::cout << "Se eliminaran todas las tareas de la lista , seguro quiere continuar? [Y/n]" << std::endl;
+            std::cin >> confirmation;
+            confirmation = toupper(confirmation);
+            if (confirmation != 'N')
+            {
                 emptyList(list);
-                std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR....";
-                std::cin.ignore() ;std::cin.get();
-                break;
+                std::cout << "La lista se ha vaciado correctamente" << std::endl;
             }
-            default:
-                break;
+            else
+            {
+                std::cout << "Operacion cancelada" << std::endl;
+                std::cin.ignore();
+                std::cin.get();
+            }
+            std::cout << "Presione una tecla para continuar" << std::endl;
+            std::cin.ignore();
+            std::cin.get();
+            option = -1;
+            break;
+        case 7:
+        {
+
+            std::cout << "Las tareas pendientes se guardaran en el archivo \"taskToDo.txt\", las tareas completadas se eliminaran." << std::endl;
+            std::cout << "Guardando tareas...." << std::endl;
+            if (isListEmpty(list))
+            {
+                std::cout << " LA LISTA ESTA VACIA, NO SE GUARDA NADA " << std::endl;
+            }
+            else
+            {
+                int save = saveTasks(list);
+                if (save == 1)
+                {
+                    std::cout << "Error al abrir el archivo para guardar los datos" << std::endl;
+                }
+                else
+                {
+                    std::cout << "TAREAS AGREGADAS CON EXITO " << std::endl;
+                    std::cout << "La proxima vez que inicies el programa , en la opcion 5 podras ver las tareas que te faltan por completar, hasta pronto" << std::endl;
+                }
+            }
+            emptyList(list);
+            std::cout << "PRESIONE CUALQUIER TECLA PARA CONTINUAR....";
+            std::cin.ignore();
+            std::cin.get();
+            break;
+        }
+        default:
+            break;
         }
     }
 }
